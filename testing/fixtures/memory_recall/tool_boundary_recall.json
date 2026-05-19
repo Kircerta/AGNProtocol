@@ -1,0 +1,141 @@
+{
+  "ok": true,
+  "queried_at": "2026-03-21T08:44:21.633058Z",
+  "query": {
+    "task_summary": "Use browser-use on my logged-in Chrome to monitor Twitter AI news.",
+    "task_type": "social_monitoring",
+    "host_id": "laptop-portable",
+    "tools": [
+      "browser-use"
+    ],
+    "providers": [
+      "claude",
+      "codex",
+      "vertex_local"
+    ]
+  },
+  "runtime_context": {
+    "host_id": "laptop-portable",
+    "host_class": "mac_laptop",
+    "environment": "portable_local",
+    "tools": {
+      "available": [
+        "ghostty",
+        "obsidian"
+      ],
+      "unavailable": [
+        "gui_agent"
+      ],
+      "reasons": {
+        "gui_agent": "not_synced_to_this_host"
+      }
+    },
+    "providers": {
+      "available": [
+        "claude",
+        "codex",
+        "vertex_local"
+      ],
+      "unavailable": [
+        "qwen_local"
+      ],
+      "reasons": {
+        "qwen_local": "not_present_on_this_host"
+      }
+    },
+    "local_models": {
+      "available": [],
+      "unavailable": [],
+      "reasons": {}
+    },
+    "runtime_source": "testing/fixtures/federated_host_state/macbook_air.json"
+  },
+  "priors": [
+    {
+      "source_kind": "catalog",
+      "id": "host.macbook_air_portable.boundaries",
+      "kind": "known_failure",
+      "summary": "Portable Example Laptop hosts often lack gui-agent and external-storage-backed qwen_local capacity. Prefer shell, Chrome, Claude Code, or remote-heavy paths unless live runtime facts confirm gui-agent or qwen_local are available.",
+      "matched_on": [
+        "host:laptop-portable"
+      ],
+      "runtime_relation": "confirmed_by_runtime",
+      "confidence": "high",
+      "source_refs": [
+        "memory/priors/recall_catalog.json"
+      ],
+      "fact_payload": {
+        "boundary": "host-specific execution prior",
+        "intent": "warn_before_assuming_local_gui_or_local_model_capacity"
+      }
+    },
+    {
+      "source_kind": "catalog",
+      "id": "tool.browser_use.logged_in_chrome_boundary",
+      "kind": "boundary",
+      "summary": "browser-use runs a controlled browser session and should not be assumed to hijack an already logged-in personal Chrome window. If the task depends on the user's live personal session, use direct desktop/browser control instead.",
+      "matched_on": [
+        "keyword:browser-use",
+        "keyword:logged-in chrome",
+        "keyword:twitter",
+        "task_type:social_monitoring",
+        "tool:browser-use"
+      ],
+      "runtime_relation": "memory_only",
+      "confidence": "high",
+      "source_refs": [
+        "scripts/agn_browser_use_wrapper.py"
+      ],
+      "fact_payload": {
+        "boundary": "tool session isolation",
+        "intent": "prevent_wrong_browser_control_path"
+      }
+    },
+    {
+      "source_kind": "catalog",
+      "id": "workflow.social_signal.source_first",
+      "kind": "boundary",
+      "summary": "Twitter/X monitoring should start from trusted Following sources and first-party event signals, not keyword search. Search is for targeted follow-up only, to avoid context pollution from low-trust posts.",
+      "matched_on": [
+        "keyword:ai news",
+        "keyword:monitor",
+        "keyword:twitter",
+        "task_type:social_monitoring"
+      ],
+      "runtime_relation": "memory_only",
+      "confidence": "high",
+      "source_refs": [
+        "documentation/reference/commands.md"
+      ],
+      "fact_payload": {
+        "boundary": "source-first social monitoring",
+        "intent": "avoid context pollution"
+      }
+    },
+    {
+      "source_kind": "catalog",
+      "id": "provider.vertex_local.runtime_guard",
+      "kind": "known_failure",
+      "summary": "vertex_local may be configured in AGN but unavailable on a given host unless the local proxy endpoint is live. Treat live host state as the final authority before planning around Vertex local execution.",
+      "matched_on": [
+        "provider:vertex_local"
+      ],
+      "runtime_relation": "not_confirmed_by_runtime",
+      "confidence": "medium",
+      "source_refs": [
+        "memory/priors/recall_catalog.json"
+      ],
+      "fact_payload": {
+        "boundary": "provider runtime override",
+        "intent": "keep runtime facts ahead of memory"
+      }
+    }
+  ],
+  "advisory_summary": [
+    "Portable Example Laptop hosts often lack gui-agent and external-storage-backed qwen_local capacity. Prefer shell, Chrome, Claude Code, or remote-heavy paths unless live runtime facts confirm gui-agent or qwen_local are available.",
+    "browser-use runs a controlled browser session and should not be assumed to hijack an already logged-in personal Chrome window. If the task depends on the user's live personal session, use direct desktop/browser control instead.",
+    "Twitter/X monitoring should start from trusted Following sources and first-party event signals, not keyword search. Search is for targeted follow-up only, to avoid context pollution from low-trust posts.",
+    "vertex_local may be configured in AGN but unavailable on a given host unless the local proxy endpoint is live. Treat live host state as the final authority before planning around Vertex local execution."
+  ],
+  "runtime_priority_notice": "Runtime facts remain authoritative. Memory priors are advisory and may be confirmed or overridden by live host state."
+}

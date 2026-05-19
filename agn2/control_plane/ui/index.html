@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGN2.0 Admin Control Plane</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="masthead-title">
+          <h1>AGN2.0 Control Plane</h1>
+          <p class="eyebrow">Human Sovereignty Layer</p>
+        </div>
+        <div class="masthead-actions">
+          <button id="refresh-button" class="button primary">Refresh</button>
+          <button id="stop-button" class="button danger">Emergency Stop</button>
+          <button id="release-button" class="button">Release Stop</button>
+        </div>
+      </header>
+
+      <section id="overview-panel" class="panel hero-panel"></section>
+      <section id="capability-panel" class="panel capability-panel"></section>
+      <section id="discipline-panel" class="panel discipline-panel"></section>
+
+      <section class="grid">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Task Board</h2>
+            <div class="mini">Priority, Exec, Review, Control</div>
+          </div>
+          <div class="scroll-area" id="task-board"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Approval Gate</h2>
+            <div class="mini">Policy Gated Actions</div>
+          </div>
+          <div class="scroll-area" id="approval-gate"></div>
+        </section>
+      </section>
+
+      <section class="panel raw-panel">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 12px; align-items: center;">
+          <div style="flex: 1; min-width: 200px;">
+            <h2>Raw Stream</h2>
+          </div>
+          <div class="raw-controls">
+            <input type="text" id="raw-search" placeholder="Search..." class="input" />
+            <input type="text" id="raw-task-id" placeholder="Task ID" class="input" style="width: 100px;" />
+            <input type="text" id="raw-trace-id" placeholder="Trace ID" class="input" style="width: 100px;" />
+            <select id="raw-type" class="input">
+              <option value="">All Types</option>
+            </select>
+            <button id="raw-sort-btn" class="button">Sort: Newest First</button>
+          </div>
+        </div>
+        <pre class="raw-logs" id="raw-stream"></pre>
+      </section>
+
+      <div id="toast" class="toast hidden"></div>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>

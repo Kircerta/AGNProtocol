@@ -1,0 +1,82 @@
+{
+  "device_paths": [
+    {
+      "source": "$AGN_WORKSPACE_ROOT/runtime/kirara_tasks.json",
+      "target": "devices/{instance_id}/agn/runtime/kirara_tasks.json"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/runtime/kirara_heartbeat_state.json",
+      "target": "devices/{instance_id}/agn/runtime/kirara_heartbeat_state.json"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/openclaw.json",
+      "target": "devices/{instance_id}/openclaw/openclaw.json"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/logs/config-audit.jsonl",
+      "target": "devices/{instance_id}/openclaw/logs/config-audit.jsonl"
+    }
+  ],
+  "instance_id": "local-operator",
+  "ops_log_target": "devices/{instance_id}/ops/sync_log.jsonl",
+  "shared_paths": [
+    {
+      "source": "$OPENCLAW_ROOT/workspace/AGENTS.md",
+      "target": "shared/openclaw/workspace/AGENTS.md"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/workspace/IDENTITY.md",
+      "target": "shared/openclaw/workspace/IDENTITY.md"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/workspace/SOUL.md",
+      "target": "shared/openclaw/workspace/SOUL.md"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/workspace/USER.md",
+      "target": "shared/openclaw/workspace/USER.md"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/workspace/HEARTBEAT.md",
+      "target": "shared/openclaw/workspace/HEARTBEAT.md"
+    },
+    {
+      "source": "$OPENCLAW_ROOT/workspace/memory",
+      "target": "shared/openclaw/workspace/memory"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/memory",
+      "target": "shared/agn/memory"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/dispatch",
+      "target": "shared/agn/dispatch"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/results",
+      "target": "shared/agn/results"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/verdicts",
+      "target": "shared/agn/verdicts"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/runtime/kirara_memory_merged.json",
+      "target": "shared/agn/runtime/kirara_memory_merged.json"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/runtime/provider_capabilities.json",
+      "target": "shared/agn/runtime/provider_capabilities.json"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/config/role_permissions.json",
+      "target": "shared/agn/config/role_permissions.json"
+    },
+    {
+      "source": "$AGN_WORKSPACE_ROOT/config/providers.json",
+      "target": "shared/agn/config/providers.json"
+    }
+  ],
+  "state_repo_path": "$HOME/Documents/KiraraState",
+  "state_repo_url": ""
+}

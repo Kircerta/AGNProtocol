@@ -1,0 +1,158 @@
+{
+  "schema_version": "agn.host_state.v1",
+  "host_identity": {
+    "host_id": "ubuntu-cloud",
+    "instance_id": "agn-ubuntu-01",
+    "display_name": "Ubuntu Cloud",
+    "host_class": "linux_server",
+    "environment": "cloud_remote",
+    "role_hint": "remote_daemon_and_long_running_jobs"
+  },
+  "static_facts": {
+    "device": {
+      "hostname": "agn-ubuntu",
+      "os_family": "linux",
+      "os_version": "Ubuntu 24.04",
+      "architecture": "x86_64",
+      "device_model": "Cloud VM"
+    },
+    "resources": {
+      "cpu_logical_cores": 16,
+      "memory_total_gb": 32,
+      "storage_roots": [
+        {
+          "name": "system",
+          "path": "/",
+          "kind": "internal",
+          "total_gb": 512,
+          "removable": false
+        }
+      ],
+      "power_profile": {
+        "has_battery": false,
+        "preferred_power_source": "n_a"
+      }
+    },
+    "path_scope": {
+      "repo_root": "/home/agn/AgenticNetwork",
+      "codex_home": "/home/agn/.codex_agn",
+      "obsidian_vault": null,
+      "local_model_roots": []
+    },
+    "capability_inventory": {
+      "declared_providers": [
+        "codex",
+        "claude",
+        "vertex_local",
+        "deepseek"
+      ],
+      "declared_local_models": [],
+      "declared_tools": [
+        "python3",
+        "tmux",
+        "docker"
+      ],
+      "declared_wrappers": [
+        "agn_hindsight_wrapper",
+        "agn_promptfoo_wrapper"
+      ]
+    }
+  },
+  "runtime_facts": {
+    "resource_state": {
+      "cpu_load_1m": 1.1,
+      "memory_available_gb": 21.7,
+      "storage_free_gb": [
+        {
+          "name": "system",
+          "free_gb": 281.2,
+          "writable": true
+        }
+      ],
+      "power_state": {
+        "source": "n_a",
+        "battery_percent": null,
+        "charging": null,
+        "low_power_mode": null
+      }
+    },
+    "availability": {
+      "providers": [
+        {
+          "name": "codex",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "claude",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "vertex_local",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "deepseek",
+          "configured": true,
+          "available": true
+        }
+      ],
+      "local_models": [],
+      "tools": [
+        {
+          "name": "python3",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "tmux",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "docker",
+          "configured": true,
+          "available": true
+        }
+      ],
+      "wrappers": [
+        {
+          "name": "agn_hindsight_wrapper",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "agn_promptfoo_wrapper",
+          "configured": true,
+          "available": true
+        }
+      ]
+    },
+    "network": {
+      "online": true,
+      "default_route": true,
+      "remote_reachability": [
+        {
+          "target_host_id": "workstation-primary",
+          "transport": "ssh",
+          "reachable": true,
+          "latency_ms": 34
+        },
+        {
+          "target_host_id": "laptop-portable",
+          "transport": "ssh",
+          "reachable": true,
+          "latency_ms": 48
+        }
+      ]
+    }
+  },
+  "heartbeat": {
+    "observed_at": "2026-03-21T08:30:10Z",
+    "fresh_until": "2026-03-21T08:35:10Z",
+    "stale_after_sec": 300,
+    "collector": "agn_host_state_probe"
+  }
+}

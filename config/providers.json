@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "default_executor": "codex",
+  "default_reviewer": "gemini",
+  "executors": {
+    "codex": {
+      "kind": "cli",
+      "command": "codex",
+      "description": "Codex CLI executor"
+    },
+    "gemini": {
+      "kind": "cli",
+      "command": "gemini",
+      "description": "Gemini CLI executor"
+    },
+    "claude": {
+      "kind": "cli",
+      "command": "claude",
+      "commands": [
+        "claude",
+        "claude-code"
+      ],
+      "description": "Claude Code CLI executor"
+    },
+    "qwen_local": {
+      "kind": "api",
+      "base_url_env": "QWEN_LOCAL_BASE_URL",
+      "model_env": "QWEN_LOCAL_MODEL",
+      "default_base_url": "http://127.0.0.1:8765/v1",
+      "default_model": "qwen-local-model",
+      "requires_api_key": false,
+      "description": "Local MLX Qwen worker for bounded low-risk structured tasks"
+    },
+    "vertex_local": {
+      "kind": "api",
+      "base_url_env": "VERTEX_LOCAL_BASE_URL",
+      "model_env": "VERTEX_LOCAL_MODEL",
+      "default_base_url": "http://127.0.0.1:8099/v1",
+      "default_model": "gemini-2.5-flash",
+      "requires_api_key": false,
+      "description": "Local Vertex AI proxy (Gemini via ADC, chat-only, no tool_use)"
+    }
+  },
+  "reviewers": {
+    "codex": {
+      "kind": "cli",
+      "command": "codex",
+      "description": "Codex CLI reviewer"
+    },
+    "gemini": {
+      "kind": "cli",
+      "command": "gemini",
+      "description": "Gemini CLI reviewer"
+    },
+    "claude": {
+      "kind": "cli",
+      "command": "claude",
+      "commands": [
+        "claude",
+        "claude-code"
+      ],
+      "description": "Claude Code CLI reviewer"
+    },
+    "deepseek": {
+      "kind": "api",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "base_url_env": "DEEPSEEK_BASE_URL",
+      "model_env": "DEEPSEEK_MODEL",
+      "default_base_url": "https://api.deepseek.com/v1",
+      "default_model": "deepseek-chat",
+      "description": "DeepSeek OpenAI-compatible reviewer API"
+    },
+    "qwen_local": {
+      "kind": "api",
+      "base_url_env": "QWEN_LOCAL_BASE_URL",
+      "model_env": "QWEN_LOCAL_MODEL",
+      "default_base_url": "http://127.0.0.1:8765/v1",
+      "default_model": "qwen-local-model",
+      "requires_api_key": false,
+      "description": "Local MLX Qwen worker for bounded low-risk structured tasks"
+    },
+    "vertex_local": {
+      "kind": "api",
+      "base_url_env": "VERTEX_LOCAL_BASE_URL",
+      "model_env": "VERTEX_LOCAL_MODEL",
+      "default_base_url": "http://127.0.0.1:8099/v1",
+      "default_model": "gemini-2.5-flash",
+      "requires_api_key": false,
+      "description": "Local Vertex AI proxy (Gemini via ADC, chat-only, no tool_use)"
+    }
+  }
+}

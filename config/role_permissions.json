@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "roles": {
+    "coordinator": {
+      "writable_dirs": ["dispatch", "ssot", "memory", "runtime", ".agn_workspace", "reports"],
+      "blocked_command_patterns": [
+        "^git\\s+(apply|commit|push|cherry-pick|rebase|reset)\\b",
+        "^sed\\s+-i",
+        "^codex\\s+exec",
+        "^rm\\b",
+        "^chmod"
+      ],
+      "utility_request_commands": ["git clone", "git checkout"],
+      "blocked_git_subcommands": ["apply", "commit", "push", "cherry-pick", "rebase", "reset", "merge"]
+    },
+    "executor": {
+      "writable_dirs": ["results", "dispatch/acks", "reports", ".agn_workspace", "runtime"],
+      "blocked_command_patterns": [
+        "^rm\\s+-rf\\s+/"
+      ],
+      "utility_request_commands": [],
+      "blocked_git_subcommands": []
+    },
+    "reviewer": {
+      "writable_dirs": ["verdicts", ".agn_workspace"],
+      "blocked_command_patterns": [
+        "^git\\s+(apply|commit|push)",
+        "^rm\\s+-rf"
+      ],
+      "utility_request_commands": [],
+      "blocked_git_subcommands": ["apply", "commit", "push"]
+    },
+    "worker": {
+      "writable_dirs": ["reports"],
+      "blocked_command_patterns": [
+        "^git\\s+(apply|commit|push|cherry-pick|rebase|reset|merge)\\b",
+        "^sed\\s+-i",
+        "^codex\\s+exec",
+        "^rm\\b",
+        "^chmod",
+        "^mv\\b",
+        "^cp\\b",
+        "^curl\\b",
+        "^wget\\b"
+      ],
+      "utility_request_commands": [],
+      "blocked_git_subcommands": ["apply", "commit", "push", "cherry-pick", "rebase", "reset", "merge"],
+      "notes": "Most restricted role for bounded worker-grade agents. Can only write to reports/. Blocked from network commands, file operations, and all git writes."
+    },
+    "coordinator_agent": {
+      "writable_dirs": [],
+      "blocked_command_patterns": [
+        "^git\\s+(apply|commit|push|cherry-pick|rebase|reset)\\b",
+        "^sed\\s+-i",
+        "^codex\\s+exec",
+        "^rm\\b",
+        "^chmod",
+        "^mv\\b",
+        "^cp\\b"
+      ],
+      "utility_request_commands": ["git clone", "git checkout"],
+      "blocked_git_subcommands": ["apply", "commit", "push", "cherry-pick", "rebase", "reset", "merge"],
+      "notes": "Read-only role for the Coordinator agent (Natsura). No AGN directory writes. All file operations must be delegated to Executor via dispatch."
+    },
+    "admin": {
+      "writable_dirs": ["*"],
+      "blocked_command_patterns": [],
+      "utility_request_commands": [],
+      "blocked_git_subcommands": []
+    }
+  }
+}

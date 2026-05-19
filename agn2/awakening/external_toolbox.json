@@ -1,0 +1,270 @@
+{
+  "version": "1.0.0",
+  "description": "Curated external execution-layer toolbox for AGN2.0. These mounts extend capability without changing governance, authority, or canonical runtime semantics.",
+  "entries": {
+    "beads": {
+      "repo_dir": "beads",
+      "docs_relpath": "README.md",
+      "category": "task_graph",
+      "mount_mode": "runtime_optional",
+      "summary": "Distributed graph issue tracker and structured long-horizon task memory for coding agents, backed by Dolt.",
+      "safe_capabilities": [
+        "dependency-aware task graph",
+        "ready queue for unblocked work",
+        "atomic task claim and status updates",
+        "structured issue audit trail",
+        "distributed task sync through Dolt"
+      ],
+      "agn_fit": [
+        "bounded long-horizon task sidecar",
+        "supplemental structured work graph for repo execution",
+        "agent-visible task graph for delegated work and progress recall"
+      ],
+      "boundaries": [
+        "Do not replace AGN append-only canonical memory or governance records with Beads.",
+        "Do not let Beads become the sole source of truth for lifecycle, control-plane, or dispatcher state.",
+        "Treat Beads as an execution-support task graph and issue sidecar, not an authority surface."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn2_execution_workflow.py preflight",
+        "scripts/agn_bounded_delegation.py",
+        "scripts/agn_task_start_kernel.py"
+      ],
+      "binary_checks": [
+        "bd",
+        "dolt"
+      ]
+    },
+    "superpowers": {
+      "repo_dir": "superpowers",
+      "docs_relpath": "README.md",
+      "category": "workflow",
+      "mount_mode": "reference_only",
+      "summary": "Planning, TDD, subagent execution, and review discipline for coding-agent workflows.",
+      "safe_capabilities": [
+        "planning templates",
+        "subagent workflow patterns",
+        "review and TDD discipline",
+        "execution checklists"
+      ],
+      "agn_fit": [
+        "Central Execution Unit workflow discipline",
+        "bounded delegation shaping",
+        "review cadence and finish criteria"
+      ],
+      "boundaries": [
+        "Do not treat Superpowers as AGN governance or authority.",
+        "Use it as workflow guidance, not a replacement for AGN lifecycle or control-plane surfaces."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_capability_rhythm.py",
+        "scripts/agn2_execution_workflow.py delegate",
+        "scripts/agn_review_gate.py"
+      ]
+    },
+    "browser-use": {
+      "repo_dir": "browser-use",
+      "docs_relpath": "README.md",
+      "category": "browser_automation",
+      "mount_mode": "runtime_optional",
+      "summary": "Persistent browser automation for real website interaction, screenshots, extraction, and authenticated flows.",
+      "safe_capabilities": [
+        "browser automation",
+        "form filling",
+        "state inspection",
+        "screenshots",
+        "web data extraction"
+      ],
+      "agn_fit": [
+        "execution-layer browser adapter",
+        "website QA and validation",
+        "browser-backed evidence capture"
+      ],
+      "boundaries": [
+        "Use for browser execution, not governance.",
+        "Respect AGN emergency-stop and review boundaries before running side-effecting web actions."
+      ],
+      "preferred_surfaces": [
+        "scripts/desktop_adapter.py",
+        "scripts/agn_visual_operator.py",
+        "scripts/agn_artifact_bridge.py"
+      ],
+      "binary_checks": [
+        "browser-use"
+      ]
+    },
+    "deepagents": {
+      "repo_dir": "deepagents",
+      "docs_relpath": "README.md",
+      "category": "worker_runtime",
+      "mount_mode": "reference_only",
+      "summary": "Batteries-included agent harness with planning, file tools, shell access, sub-agents, and CLI.",
+      "safe_capabilities": [
+        "bounded worker harness reference",
+        "sub-agent runtime patterns",
+        "remote sandbox and CLI patterns"
+      ],
+      "agn_fit": [
+        "worker-grade runtime inspiration",
+        "bounded labor execution patterns",
+        "optional future worker harness mount"
+      ],
+      "boundaries": [
+        "Do not let Deep Agents replace Central Execution Unit judgment.",
+        "Do not let it bypass AGN review or control surfaces."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_bounded_delegation.py",
+        "scripts/agent_collaboration.py",
+        "scripts/agn2_execution_workflow.py delegate"
+      ],
+      "binary_checks": [
+        "deepagents"
+      ]
+    },
+    "hindsight": {
+      "repo_dir": "hindsight",
+      "docs_relpath": "README.md",
+      "category": "memory",
+      "mount_mode": "runtime_optional",
+      "summary": "Long-term agent memory system with retain, recall, and reflect operations.",
+      "safe_capabilities": [
+        "retrieval memory",
+        "experience recall",
+        "reflection over accumulated memory"
+      ],
+      "agn_fit": [
+        "memory-sidecar retrieval layer",
+        "recall before work",
+        "cross-task learnings lookup"
+      ],
+      "boundaries": [
+        "Do not replace AGN append-only canonical memory.",
+        "Use as a retrieval and reflection sidecar, not as SSOT."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_memory_ingestion.py",
+        "scripts/memory_recorder.py",
+        "scripts/agn_mcp_server.py --index-memory"
+      ],
+      "binary_checks": [
+        "uvx"
+      ]
+    },
+    "page-agent": {
+      "repo_dir": "page-agent",
+      "docs_relpath": "README.md",
+      "category": "browser_mcp",
+      "mount_mode": "runtime_optional",
+      "summary": "In-page web GUI agent with MCP server and extension-backed browser control.",
+      "safe_capabilities": [
+        "page-local natural language control",
+        "extension-backed MCP browser actions",
+        "DOM-text based browser automation"
+      ],
+      "agn_fit": [
+        "web-specific MCP adapter",
+        "page-level copilot experiments",
+        "multi-page browser extension integration"
+      ],
+      "boundaries": [
+        "Use for web interaction, not desktop governance.",
+        "Do not treat page-agent as a replacement for AGN desktop or control-plane surfaces."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_mcp_server.py",
+        "scripts/desktop_adapter.py"
+      ],
+      "binary_checks": [
+        "node",
+        "npx"
+      ]
+    },
+    "promptfoo": {
+      "repo_dir": "promptfoo",
+      "docs_relpath": "README.md",
+      "category": "evaluation",
+      "mount_mode": "runtime_optional",
+      "summary": "LLM evals and red teaming for coding agents, MCP, prompt security, and regression testing.",
+      "safe_capabilities": [
+        "agent evals",
+        "red teaming",
+        "trajectory assertions",
+        "CI regression checks"
+      ],
+      "agn_fit": [
+        "execution validation sidecar",
+        "review hardening",
+        "MCP and agent security testing"
+      ],
+      "boundaries": [
+        "Promptfoo evaluates and red-teams AGN surfaces; it does not govern them.",
+        "Keep Promptfoo in the validation lane, not the authority lane."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_review_gate.py",
+        "scripts/review_orchestrator.py",
+        "documentation/reference/commands.md"
+      ],
+      "binary_checks": [
+        "node",
+        "npx"
+      ]
+    },
+    "insforge": {
+      "repo_dir": "InsForge",
+      "docs_relpath": "README.md",
+      "category": "backend_capability",
+      "mount_mode": "reference_only",
+      "summary": "Agent-friendly backend semantic layer for auth, database, storage, functions, model gateway, and deployment.",
+      "safe_capabilities": [
+        "backend semantic layer patterns",
+        "MCP-based backend operations",
+        "agent-facing backend primitives"
+      ],
+      "agn_fit": [
+        "future backend execution adapter",
+        "agent-friendly service integration",
+        "MCP semantic layer reference"
+      ],
+      "boundaries": [
+        "Do not let backend convenience bypass AGN control-plane or review posture.",
+        "Treat InsForge as execution-layer backend capability, not governance."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_mcp_server.py",
+        "scripts/dispatcher_runtime.py"
+      ],
+      "binary_checks": [
+        "docker",
+        "node"
+      ]
+    },
+    "academic-writing-prompts": {
+      "repo_dir": "chatgpt-prompts-for-academic-writing",
+      "docs_relpath": "README.md",
+      "category": "writing",
+      "mount_mode": "reference_only",
+      "summary": "Prompt patterns for academic writing, literature review, section drafting, and scholarly language revision.",
+      "safe_capabilities": [
+        "academic writing prompts",
+        "literature review patterns",
+        "section-structured writing prompts",
+        "scholarly editing prompts"
+      ],
+      "agn_fit": [
+        "research writing overlay support",
+        "academic drafting reference",
+        "argument-structure prompt source"
+      ],
+      "boundaries": [
+        "Use as writing support, not as factual authority.",
+        "References and claims still require explicit verification."
+      ],
+      "preferred_surfaces": [
+        "scripts/agn_cognitive_overlays.py",
+        "scripts/research_flow.py"
+      ]
+    }
+  }
+}

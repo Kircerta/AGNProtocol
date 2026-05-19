@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AGN Acceptance Spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "trace_id", "blocking", "items"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "minLength": 1},
+    "blocking": {"type": "boolean"},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"},
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ac_id", "statement", "evidence_type", "required", "evidence_refs"],
+        "properties": {
+          "ac_id": {"type": "string", "minLength": 1},
+          "statement": {"type": "string", "minLength": 1, "maxLength": 480},
+          "evidence_type": {
+            "type": "string",
+            "enum": ["log_ref", "result_ref", "verdict_ref", "patch_ref", "metric"]
+          },
+          "required": {"type": "boolean"},
+          "evidence_refs": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^agn://"}
+          },
+          "validator": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["contains", "equals", "jsonpath", "sha256_match"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

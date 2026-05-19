@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AGN Coordinator Action Protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trace_id",
+    "task_id",
+    "action_id",
+    "action_type",
+    "inputs",
+    "refs",
+    "budget"
+  ],
+  "properties": {
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "EXECUTE_CMD",
+        "WRITE_FILE",
+        "READ_REF",
+        "READ_REPO_FILE",
+        "REQUEST_REVIEW",
+        "SUMMARIZE",
+        "RETRY",
+        "ABORT"
+      ]
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "refs": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string",
+            "pattern": "^agn://"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^agn://"
+            }
+          }
+        ]
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": [
+        "max_time_sec",
+        "max_disk_mb",
+        "max_log_kb"
+      ],
+      "properties": {
+        "max_time_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_disk_mb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_log_kb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_role": {
+      "type": "string"
+    },
+    "state_hint": {
+      "type": "string"
+    }
+  }
+}

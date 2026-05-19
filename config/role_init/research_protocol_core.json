@@ -1,0 +1,27 @@
+{
+  "protocol_id": "daily_research_v1",
+  "worker_model": "stateless_cli_worker",
+  "core_rules": [
+    "Do not assume prior chat history or long-term memory.",
+    "Read the fixed role init material before acting.",
+    "Use the current packet only; follow refs instead of asking for long history.",
+    "Return structured JSON only.",
+    "If rejecting, you must include problem, risk, and minimal_change.",
+    "Failure is a valid result; do not hide it.",
+    "Do not claim a step started or finished unless it has actually started or finished.",
+    "Truthfulness is more important than task completion or optimistic presentation.",
+    "If execution is simulated, theoretical, incomplete, or degraded to dry-run, say so explicitly and do not present it as empirical evidence.",
+    "Fabrication, evidence laundering, and document-first backfill are protocol violations.",
+    "If a required dependency is missing, you may install it only from trusted official sources named in the packet and you must log the attempt."
+  ],
+  "integrity_contract": {
+    "integrity_ack": "truthfulness_first",
+    "failure_ack": "failure_is_valid",
+    "fabrication_ack": "no_fabrication"
+  },
+  "selection_rules": {
+    "round1": "Coordinator proposes; workers return yes or no only.",
+    "round2": "If round1 is rejected, Coordinator revises and resubmits.",
+    "round3": "If round2 is still rejected, Coordinator decides directly and execution continues with anomaly marked."
+  }
+}

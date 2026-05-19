@@ -1,0 +1,307 @@
+{
+  "schema_version": "agn.reconstruction_tracker.v1",
+  "program": {
+    "program_id": "agn2_reconstruction",
+    "display_name": "AGN2.0 Reconstruction Program",
+    "goal": "Turn AGN from a large script pile into a modular governed system with explicit package boundaries, enforced execution gateways, and durable operator handoff.",
+    "status": "active",
+    "active_phase_id": "phase_3_gradual_implementation_migration",
+    "owner": "Operator",
+    "execution_lead": "AGN 2.0 Codex - Central Execution Unit"
+  },
+  "component_classes": [
+    {
+      "class_id": "system_core",
+      "display_name": "System Core",
+      "approx_count": 14,
+      "summary": "Must exist and remain coherent because they form the governance and lifecycle skeleton."
+    },
+    {
+      "class_id": "governed_handlers",
+      "display_name": "Governed Handlers",
+      "approx_count": 5,
+      "summary": "Execution-layer handlers that should be reachable only through the dispatcher."
+    },
+    {
+      "class_id": "agent_tools",
+      "display_name": "Agent Tools",
+      "approx_count": 17,
+      "summary": "CLI utilities that help agents inspect, reason, and prepare work but are not the system core."
+    },
+    {
+      "class_id": "external_integrations",
+      "display_name": "External Integrations",
+      "approx_count": 10,
+      "summary": "Wrappers and API integrations such as Browser Use, Hindsight, Promptfoo, Telegram, and Kirara."
+    },
+    {
+      "class_id": "agn1_sealed_subsystem",
+      "display_name": "AGN1.0 Sealed Subsystem",
+      "approx_count": 8,
+      "summary": "Large historical coordination and research code paths that should stay sealed unless explicitly reopened."
+    }
+  ],
+  "host_caveats": [
+    {
+      "id": "tauri_remote_host",
+      "summary": "Control Plane Tauri/Rust artifacts may only exist on another machine. Python-side restructuring should not assume local Tauri build availability."
+    },
+    {
+      "id": "portable_host_variance",
+      "summary": "This Example Laptop is a valid architecture and refactor node, but not every heavy dependency or compiled artifact is guaranteed to exist here."
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "phase_1_package_foundation",
+      "display_name": "Phase 1 - Package Foundation",
+      "status": "completed",
+      "summary": "Create a canonical Python package with clean namespaces while keeping scripts backward-compatible through proxy re-exports.",
+      "completion_commit": "9871ebd",
+      "deliverables": [
+        "pyproject.toml",
+        "src/agn package skeleton",
+        "proxy modules for core/governance/dispatch/handlers",
+        "src/README.md"
+      ],
+      "acceptance": [
+        "Both agn.* and legacy script imports work",
+        "Existing tests continue to pass without broad rewrites",
+        "Future migration can proceed one module at a time"
+      ],
+      "open_notes": [
+        "Implementation still lives in scripts/",
+        "Proxy phase is a foundation, not the end state"
+      ]
+    },
+    {
+      "phase_id": "phase_2_governance_enforcement_boundary",
+      "display_name": "Phase 2 - Governance Enforcement Boundary",
+      "status": "completed",
+      "summary": "Make governance enforcement mandatory by narrowing execution through dispatcher boundaries and reducing direct handler reachability.",
+      "completion_commit": "15a0a1a",
+      "dependencies": [
+        "phase_1_package_foundation"
+      ],
+      "target_changes": [
+        "Concentrate side-effect execution behind dispatch entry points",
+        "Reduce direct external imports of handler implementations",
+        "Keep emergency-stop and policy-gate enforcement at execution boundaries",
+        "Introduce a governed execution gateway so active modules stop rebuilding dispatch payloads ad hoc"
+      ],
+      "acceptance": [
+        "Real side-effecting execution paths are mediated by governed dispatch surfaces",
+        "Handler reachability is narrowed or clearly documented as legacy",
+        "The next architectural step is smaller than a full repo rewrite"
+      ],
+      "risks": [
+        "Breaking hidden direct handler callers",
+        "Creating new complexity faster than safety improves"
+      ],
+      "open_notes": [
+        "Active system modules should use the governed execution gateway instead of directly importing provider, review, memory, vision, or desktop handlers.",
+        "Direct handler CLIs for provider routing, flagship review, and vision parsing should require explicit acknowledgement so they do not drift back into default operator surfaces."
+      ]
+    },
+    {
+      "phase_id": "phase_3_gradual_implementation_migration",
+      "display_name": "Phase 3 - Gradual Implementation Migration",
+      "status": "active",
+      "summary": "Move implementation from scripts/ into src/agn per module, in dependency order, with legacy script shims retained during the transition."
+    },
+    {
+      "phase_id": "phase_4_persistent_control_loop",
+      "display_name": "Phase 4 - Persistent Control Loop",
+      "status": "planned",
+      "summary": "Turn one-shot control into a durable loop with startup/shutdown expectations and environment-aware deployment notes."
+    },
+    {
+      "phase_id": "phase_5_end_to_end_governance_exercise",
+      "display_name": "Phase 5 - End-to-End Governance Exercise",
+      "status": "planned",
+      "summary": "Prove the formal chain through a real governance cycle: command -> daemon -> gate -> dispatch -> audit -> read model."
+    }
+  ],
+  "milestone_log": [
+    {
+      "date": "2026-03-23",
+      "title": "Single-host host context consolidation",
+      "commit": "8b5632d",
+      "summary": "Collapsed multi-host active semantics into one current-host surface with HOST_INFO and paused compatibility shims."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Task-start kernel introduced",
+      "commit": "bc3dfde",
+      "summary": "Unified host facts, memory priors, and tool reality cards into one task-start object."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Infrastructure map added",
+      "commit": "c1e5f80",
+      "summary": "Defined AGN as districts and modules instead of raw file discovery."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Evolution pipeline added",
+      "commit": "f6c418f",
+      "summary": "Created a formal intake/fusion/upgrade/retirement path for external capabilities."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "External audit hardening pass",
+      "commit": "81cbfc1",
+      "summary": "Closed fail-open override and gate bypass issues, bootstrapped signed system_mode startup, and fixed read-model timestamps."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Canonical Python package foundation",
+      "commit": "9871ebd",
+      "summary": "Created pyproject and src/agn proxy package as the starting point for deeper migration."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 2 governed execution gateway",
+      "commit": "b536a9f",
+      "summary": "Active execution surfaces now prefer a governed gateway for provider, review, memory, vision, and desktop work instead of direct handler imports; desktop status observe now works without gui-agent."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 2 handler CLI isolation",
+      "commit": "15a0a1a",
+      "summary": "Direct handler CLIs for model routing, flagship review, and vision parsing now require explicit acknowledgement, while governed gateway CLI subcommands provide active replacement surfaces and capability state now reports missing vision OCR dependencies honestly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 gateway package migration",
+      "commit": "15b5ef8",
+      "summary": "The governed execution gateway and handler CLI guard now live in src/agn/governance as real implementations while legacy script entrypoints remain as compatible shims."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 reconstruction tracker package migration",
+      "commit": "fbd3bbf",
+      "summary": "Reconstruction status now lives in src/agn/governance as a real implementation, the legacy script is a shim, and control-plane read models import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 task-start kernel package migration",
+      "commit": "511b0aa",
+      "summary": "Task-start kernel now lives in src/agn/governance as a real implementation, the legacy script is a shim, and preflight imports the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 operator brief package migration",
+      "commit": "2aad6e8",
+      "summary": "Operator brief now lives in src/agn/governance as a real implementation, the legacy script is a shim, and preflight imports the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 host info runtime package migration",
+      "commit": "0abb8d8",
+      "summary": "Host info now lives in src/agn/runtime as the real runtime fact surface, the legacy script is a shim, and active task-start consumers import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 infrastructure map architecture package migration",
+      "commit": "f40b962",
+      "summary": "Infrastructure map now lives in src/agn/architecture as the real city-map implementation, the legacy script is a shim, and architecture-facing consumers import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 evolution pipeline architecture package migration",
+      "commit": "a2325ff",
+      "summary": "Evolution pipeline now lives in src/agn/architecture as the real change-foundry implementation, the legacy script is a shim, and active read-model consumers import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 control-plane read-model package migration",
+      "commit": "27fc259",
+      "summary": "Control-plane read-model aggregation now lives in src/agn/governance as the real implementation, the legacy refresh script is a shim, and active governance consumers import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 execution workflow governance package migration",
+      "commit": "c147b5b",
+      "summary": "Execution workflow now lives in src/agn/governance as the real implementation, the legacy CLI is a shim, and active task-start helpers import the package module directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 lifecycle system governance package migration",
+      "commit": "792b510",
+      "summary": "Lifecycle entry now lives in src/agn/governance as the real implementation, the legacy CLI is a shim, and package-level lifecycle behavior is validated directly."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 control daemon governance package migration",
+      "commit": "4226ff5",
+      "summary": "Control daemon now lives in src/agn/governance as the real implementation, the legacy CLI is a shim, and lifecycle plus read-model validation paths now point at the package module."
+    },
+    {
+      "date": "2026-03-23",
+      "title": "Phase 3 admin command protocol governance package migration",
+      "commit": "4373c6b",
+      "summary": "Formal admin command handling now lives in src/agn/governance as the real implementation, the legacy script is a shim, and lifecycle, control-daemon, and control-plane posture surfaces now import the package module directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 admin-control core package migration",
+      "commit": "5acca7a",
+      "summary": "Shared admin-control path, JSON I/O, governance-root, and constitution-protected write helpers now live in src/agn/core as the real implementation; the legacy script is a shim and active governance modules now import agn.core.admin_control directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 emergency-stop core package migration",
+      "commit": "3a3c3d7",
+      "summary": "Signed system-mode state, emergency-stop activation/release, and runtime posture helpers now live in src/agn/core as the real implementation; the legacy script is a shim and active governance modules now import agn.core.emergency_stop directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 policy-gate core package migration",
+      "commit": "5fc7cc7",
+      "summary": "Dispatch policy-gate evaluation, gate queue persistence, and approval-decision tracking now live in src/agn/core as the real implementation; the legacy script is a shim and active governance, dispatcher, and bridge paths now import agn.core.policy_gate directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 role-guard core package migration",
+      "commit": "bf99b27",
+      "summary": "Role-based command and write-path enforcement now live in src/agn/core as the real implementation; the legacy script is a shim and low-level execution protections now import agn.core.role_guard directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 guarded-io core package migration",
+      "commit": "b29adab",
+      "summary": "Role-guarded filesystem write helpers now live in src/agn/core as the real implementation; the legacy script is a shim and low-level request, action, and adversarial-probe paths now import agn.core.guarded_io directly."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 constitution core package migration",
+      "commit": "b8a76ce",
+      "summary": "Constitution loading, validation, and policy helpers now live in src/agn/core as the real implementation; the legacy script is a shim, runtime consumers now import agn.core.constitution directly, and task-start package modules shed several unnecessary script fallback imports in the same pass."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 dispatch spine package migration",
+      "commit": "9be70f2",
+      "summary": "Event store, runtime bus, and dispatcher now live in src/agn/dispatch as real implementations; legacy scripts are shims, active governance consumers import agn.dispatch directly, and the Phase 3 acceptance matrix now covers the dispatch spine."
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Phase 3 script-debt reduction on package hot paths",
+      "commit": "c746426",
+      "summary": "Real package modules no longer import scripts/ directly on the hot path, scripts bootstrap on real package modules dropped from 13 to 10, and script-debt reduction now has a dedicated binary acceptance suite."
+    },
+    {
+      "date": "2026-03-27",
+      "title": "Phase 3 governance support proxy closeout",
+      "commit": "e668321",
+      "summary": "Governance bridge, council, lifecycle, review-contract, and handler-side visual security now live in src/agn as real implementations; legacy scripts are shims, the Phase 3 matrix is now 20/20, and only five handler proxies remain."
+    }
+  ],
+  "update_protocol": [
+    "When a reconstruction phase advances, update phase status first.",
+    "Append a new milestone_log entry instead of rewriting history.",
+    "If the architecture changes, update PROJECT_BRIEF.md and documentation/reference/architecture.md.",
+    "Keep reference docs short and current-state focused."
+  ]
+}

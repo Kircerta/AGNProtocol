@@ -1,0 +1,165 @@
+{
+  "schema_version": "agn.host_state.v1",
+  "host_identity": {
+    "host_id": "laptop-portable",
+    "instance_id": "agn-macbookair-01",
+    "display_name": "Example Laptop",
+    "host_class": "mac_laptop",
+    "environment": "portable_local",
+    "role_hint": "portable_control_node"
+  },
+  "static_facts": {
+    "device": {
+      "hostname": "Example-Laptop",
+      "os_family": "macos",
+      "os_version": "macOS 15.x",
+      "architecture": "arm64",
+      "device_model": "Example Laptop"
+    },
+    "resources": {
+      "cpu_logical_cores": 8,
+      "memory_total_gb": 16,
+      "storage_roots": [
+        {
+          "name": "system",
+          "path": "/",
+          "kind": "internal",
+          "total_gb": 256,
+          "removable": false
+        }
+      ],
+      "power_profile": {
+        "has_battery": true,
+        "preferred_power_source": "battery_or_ac"
+      }
+    },
+    "path_scope": {
+      "repo_root": "<repo-root>",
+      "codex_home": "/example/codex-agn-home",
+      "obsidian_vault": "~/Documents/Example Vault",
+      "local_model_roots": []
+    },
+    "capability_inventory": {
+      "declared_providers": [
+        "codex",
+        "claude",
+        "vertex_local"
+      ],
+      "declared_local_models": [],
+      "declared_tools": [
+        "ghostty",
+        "obsidian",
+        "google_chrome"
+      ],
+      "declared_wrappers": [
+        "agn_browser_use_wrapper",
+        "agn_hindsight_wrapper",
+        "agn_promptfoo_wrapper"
+      ]
+    }
+  },
+  "runtime_facts": {
+    "resource_state": {
+      "cpu_load_1m": 0.9,
+      "memory_available_gb": 7.4,
+      "storage_free_gb": [
+        {
+          "name": "system",
+          "free_gb": 68.1,
+          "writable": true
+        }
+      ],
+      "power_state": {
+        "source": "battery",
+        "battery_percent": 74,
+        "charging": false,
+        "low_power_mode": true
+      }
+    },
+    "availability": {
+      "providers": [
+        {
+          "name": "codex",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "claude",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "vertex_local",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "qwen_local",
+          "configured": false,
+          "available": false,
+          "reason": "not_present_on_this_host"
+        }
+      ],
+      "local_models": [],
+      "tools": [
+        {
+          "name": "ghostty",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "obsidian",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "gui_agent",
+          "configured": false,
+          "available": false,
+          "reason": "not_synced_to_this_host"
+        }
+      ],
+      "wrappers": [
+        {
+          "name": "agn_browser_use_wrapper",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "agn_hindsight_wrapper",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "agn_promptfoo_wrapper",
+          "configured": true,
+          "available": true
+        }
+      ]
+    },
+    "network": {
+      "online": true,
+      "default_route": true,
+      "remote_reachability": [
+        {
+          "target_host_id": "workstation-primary",
+          "transport": "shared_fs",
+          "reachable": true,
+          "latency_ms": null
+        },
+        {
+          "target_host_id": "ubuntu-cloud",
+          "transport": "ssh",
+          "reachable": true,
+          "latency_ms": 48
+        }
+      ]
+    }
+  },
+  "heartbeat": {
+    "observed_at": "2026-03-21T08:30:20Z",
+    "fresh_until": "2026-03-21T08:35:20Z",
+    "stale_after_sec": 300,
+    "collector": "agn_host_state_probe"
+  }
+}

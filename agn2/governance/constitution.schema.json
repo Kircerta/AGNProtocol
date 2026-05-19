@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "admin": {
+      "properties": {
+        "authorized_issuers": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "sole_ssot": {
+          "const": true
+        }
+      },
+      "required": [
+        "authorized_issuers",
+        "sole_ssot"
+      ],
+      "type": "object"
+    },
+    "council_review": {
+      "properties": {
+        "reviewer_count": {
+          "const": 3
+        },
+        "unanimous_approve_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "reviewer_count",
+        "unanimous_approve_required"
+      ],
+      "type": "object"
+    },
+    "emergency_stop": {
+      "type": "object"
+    },
+    "high_risk_policy": {
+      "type": "object"
+    },
+    "immutability": {
+      "type": "object"
+    },
+    "runtime_hierarchy": {
+      "type": "object"
+    },
+    "transparency": {
+      "properties": {
+        "raw_view_required": {
+          "const": true
+        },
+        "summary_view_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "summary_view_required",
+        "raw_view_required"
+      ],
+      "type": "object"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "admin",
+    "council_review",
+    "transparency"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,100 @@
+{
+  "allowed_axes": [
+    "Transformer 及其变体",
+    "GAN",
+    "参数化与非参数化方法",
+    "经典注意力机制衍生与替代",
+    "机器学习在信号处理中的应用"
+  ],
+  "focus_topics": [
+    "音频分离",
+    "频响曲线自动校正",
+    "局部恢复整体",
+    "音频线性依赖与结构关系"
+  ],
+  "degrade_chain": [
+    "shrink_problem",
+    "baseline_only",
+    "dry_run",
+    "failure_note"
+  ],
+  "candidate_pool": [
+    {
+      "topic_id": "transformer_sep_external",
+      "axis": "Transformer 及其变体",
+      "focus": "音频分离",
+      "title": "Sparse transformer surrogate for singing separation under fixed token budget",
+      "problem": "Test whether a sparse transformer framing helps a low-budget audio separation surrogate without importing a large external corpus tonight.",
+      "core_idea": "Use a sparse-token sequence model idea as the study object, but begin with a corpus-dependent framing that is likely too ambitious for one unattended night run.",
+      "method_family": "parameterized",
+      "baseline": "simple STFT-mask style surrogate baseline",
+      "survey_note": "High learning value, but the original framing depends on data and budget surfaces that are unstable for a 30-day self-hosted run.",
+      "data_ready": false,
+      "baseline_clear": true,
+      "fixed_budget": false,
+      "falsifiable": true,
+      "degrade_ready": true,
+      "external_dependency": true,
+      "safe_fallback": false,
+      "learning_value": 0.94
+    },
+    {
+      "topic_id": "freq_response_local_global",
+      "axis": "参数化与非参数化方法",
+      "focus": "频响曲线自动校正",
+      "title": "Local-window frequency response correction with global smoothness constraints",
+      "problem": "Study whether local window measurements can reconstruct a globally smooth correction curve with a tiny non-parametric baseline.",
+      "core_idea": "Contrast a hand-crafted smoother against a lightweight parameterized fit under small synthetic response curves.",
+      "method_family": "hybrid",
+      "baseline": "moving-average smoothing baseline",
+      "survey_note": "Safe and runnable, but less directly coupled to the strongest discussion requirement than the dependency topic.",
+      "data_ready": true,
+      "baseline_clear": true,
+      "fixed_budget": true,
+      "falsifiable": true,
+      "degrade_ready": true,
+      "external_dependency": false,
+      "safe_fallback": true,
+      "learning_value": 0.79
+    },
+    {
+      "topic_id": "local_global_dependency",
+      "axis": "机器学习在信号处理中的应用",
+      "focus": "音频线性依赖与结构关系",
+      "title": "Local-to-global lag structure recovery on synthetic audio-like signals",
+      "problem": "Can local observations recover a global linear dependency pattern when contiguous regions are corrupted or missing?",
+      "core_idea": "Use segment-level lag voting to infer a global dependency relation and compare it with a single global lag-energy baseline.",
+      "method_family": "non_parametric",
+      "baseline": "global lag-energy baseline",
+      "survey_note": "Data is synthetic, the budget is fixed, and the result can still teach something even if the improved method fails.",
+      "data_ready": true,
+      "baseline_clear": true,
+      "fixed_budget": true,
+      "falsifiable": true,
+      "degrade_ready": true,
+      "external_dependency": false,
+      "safe_fallback": true,
+      "simulate_experiment_failure_once": true,
+      "learning_value": 0.88
+    },
+    {
+      "topic_id": "attention_free_signal_gate",
+      "axis": "经典注意力机制衍生与替代",
+      "focus": "局部恢复整体",
+      "title": "Attention-free gated aggregation for local-to-global signal reconstruction",
+      "problem": "Test whether a fixed gating rule can replace explicit attention for a toy reconstruction task.",
+      "core_idea": "Use deterministic gates on local windows as an attention alternative, then compare to a plain averaging baseline.",
+      "method_family": "attention_alternative",
+      "baseline": "uniform local averaging",
+      "survey_note": "Conceptually clean, but weaker on direct audio structure than the lag study.",
+      "data_ready": true,
+      "baseline_clear": true,
+      "fixed_budget": true,
+      "falsifiable": true,
+      "degrade_ready": true,
+      "external_dependency": false,
+      "safe_fallback": true,
+      "learning_value": 0.76
+    }
+  ]
+}

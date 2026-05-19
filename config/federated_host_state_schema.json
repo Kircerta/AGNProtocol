@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AGN Federated Host State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "host_identity",
+    "static_facts",
+    "runtime_facts",
+    "heartbeat"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "agn.host_state.v1"
+    },
+    "host_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "host_id",
+        "instance_id",
+        "display_name",
+        "host_class",
+        "environment"
+      ],
+      "properties": {
+        "host_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_class": {
+          "type": "string",
+          "enum": [
+            "mac_desktop",
+            "mac_laptop",
+            "linux_server",
+            "other"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "primary_local",
+            "portable_local",
+            "cloud_remote",
+            "other"
+          ]
+        },
+        "role_hint": {
+          "type": "string"
+        }
+      }
+    },
+    "static_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "device",
+        "resources",
+        "path_scope",
+        "capability_inventory"
+      ],
+      "properties": {
+        "device": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hostname",
+            "os_family",
+            "os_version",
+            "architecture"
+          ],
+          "properties": {
+            "hostname": {
+              "type": "string",
+              "minLength": 1
+            },
+            "os_family": {
+              "type": "string",
+              "enum": [
+                "macos",
+                "linux",
+                "windows",
+                "other"
+              ]
+            },
+            "os_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "architecture": {
+              "type": "string",
+              "minLength": 1
+            },
+            "device_model": {
+              "type": "string"
+            }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cpu_logical_cores",
+            "memory_total_gb",
+            "storage_roots",
+            "power_profile"
+          ],
+          "properties": {
+            "cpu_logical_cores": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "memory_total_gb": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "storage_roots": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "path",
+                  "kind",
+                  "total_gb",
+                  "removable"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "internal",
+                      "external",
+                      "network",
+                      "other"
+                    ]
+                  },
+                  "total_gb": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "removable": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "power_profile": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "has_battery",
+                "preferred_power_source"
+              ],
+              "properties": {
+                "has_battery": {
+                  "type": "boolean"
+                },
+                "preferred_power_source": {
+                  "type": "string",
+                  "enum": [
+                    "ac_only",
+                    "battery_or_ac",
+                    "n_a"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "path_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "repo_root",
+            "codex_home",
+            "local_model_roots"
+          ],
+          "properties": {
+            "repo_root": {
+              "type": "string",
+              "minLength": 1
+            },
+            "codex_home": {
+              "type": "string",
+              "minLength": 1
+            },
+            "obsidian_vault": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "local_model_roots": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "capability_inventory": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "declared_providers",
+            "declared_local_models",
+            "declared_tools",
+            "declared_wrappers"
+          ],
+          "properties": {
+            "declared_providers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "declared_local_models": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "declared_tools": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "declared_wrappers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "runtime_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource_state",
+        "availability",
+        "network"
+      ],
+      "properties": {
+        "resource_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "memory_available_gb",
+            "storage_free_gb",
+            "power_state"
+          ],
+          "properties": {
+            "cpu_load_1m": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "memory_available_gb": {
+              "type": "number",
+              "minimum": 0
+            },
+            "storage_free_gb": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "free_gb",
+                  "writable"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "free_gb": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "writable": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "power_state": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source"
+              ],
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "ac",
+                    "battery",
+                    "ups",
+                    "unknown",
+                    "n_a"
+                  ]
+                },
+                "battery_percent": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "charging": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "low_power_mode": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "availability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "providers",
+            "local_models",
+            "tools",
+            "wrappers"
+          ],
+          "properties": {
+            "providers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/availabilityItem"
+              }
+            },
+            "local_models": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/availabilityItem"
+              }
+            },
+            "tools": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/availabilityItem"
+              }
+            },
+            "wrappers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/availabilityItem"
+              }
+            }
+          }
+        },
+        "network": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "online",
+            "remote_reachability"
+          ],
+          "properties": {
+            "online": {
+              "type": "boolean"
+            },
+            "default_route": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "remote_reachability": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "target_host_id",
+                  "transport",
+                  "reachable"
+                ],
+                "properties": {
+                  "target_host_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "transport": {
+                    "type": "string",
+                    "enum": [
+                      "ssh",
+                      "https",
+                      "mcp",
+                      "shared_fs",
+                      "other"
+                    ]
+                  },
+                  "reachable": {
+                    "type": "boolean"
+                  },
+                  "latency_ms": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "last_error": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "heartbeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_at",
+        "fresh_until",
+        "stale_after_sec",
+        "collector"
+      ],
+      "properties": {
+        "observed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fresh_until": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stale_after_sec": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "collector": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "availabilityItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "configured",
+        "available"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "configured": {
+          "type": "boolean"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "schema_version": "agn.evolution_pipeline_registry.v1",
+  "integration_tiers": [
+    {
+      "tier_id": "ignore",
+      "display_name": "Ignore",
+      "purpose": "The repo or idea stays outside AGN because it is redundant, low-signal, unsafe, or not worth maintaining."
+    },
+    {
+      "tier_id": "reference_only",
+      "display_name": "Reference Only",
+      "purpose": "Use the material as a read-only source of patterns, prompts, or implementation ideas without runtime attachment."
+    },
+    {
+      "tier_id": "toolbox_catalog",
+      "display_name": "Toolbox Catalog",
+      "purpose": "Expose the capability through the external toolbox inventory so agents can discover it without modifying core behavior."
+    },
+    {
+      "tier_id": "bounded_wrapper",
+      "display_name": "Bounded Wrapper",
+      "purpose": "Provide a controlled runtime wrapper with explicit contracts, artifacts, authority boundaries, and rollback."
+    },
+    {
+      "tier_id": "task_start_support",
+      "display_name": "Task-Start Support",
+      "purpose": "Promote the capability into task-start support surfaces such as reality cards, memory priors, overlays, or operator briefs."
+    },
+    {
+      "tier_id": "first_class_module",
+      "display_name": "First-Class Module",
+      "purpose": "Adopt the capability as a stable AGN module only after repeated value, clean contracts, and low operator confusion are proven."
+    },
+    {
+      "tier_id": "paused_legacy",
+      "display_name": "Paused Legacy",
+      "purpose": "Retire the capability from the active path while keeping a fail-closed compatibility shell or archive trail."
+    }
+  ],
+  "pipelines": [
+    {
+      "pipeline_id": "external_intake",
+      "display_name": "External Intake",
+      "purpose": "Turn a newly downloaded repo or idea into an assessed capability dossier without touching AGN core behavior.",
+      "triggers": [
+        "new GitHub repository pulled into OpenSource",
+        "new CLI, SDK, prompt pack, or runtime discovered",
+        "new repo looks useful but fit is still uncertain"
+      ],
+      "default_target_tier": "toolbox_catalog",
+      "guardrails": [
+        "Do not change governance, control-plane semantics, or authority just because a new repo exists.",
+        "Do not promote a repo past reference_only or toolbox_catalog before a local reality check.",
+        "Prefer additive cataloging over architectural churn."
+      ],
+      "stages": [
+        {
+          "stage_id": "fit_scan",
+          "display_name": "Fit Scan",
+          "goal": "Establish what the new repo is for, what layer it belongs to, and whether AGN actually needs it.",
+          "outputs": [
+            "repo summary",
+            "candidate AGN fit",
+            "boundary notes",
+            "initial tier recommendation"
+          ]
+        },
+        {
+          "stage_id": "reality_check",
+          "display_name": "Reality Check",
+          "goal": "Verify installation posture, local prerequisites, and whether the capability is real on the current host.",
+          "outputs": [
+            "binary or dependency checks",
+            "minimum smoke result",
+            "host-specific caveats"
+          ]
+        },
+        {
+          "stage_id": "non_invasive_mount",
+          "display_name": "Non-Invasive Mount",
+          "goal": "Expose the repo as reference_only or toolbox_catalog before touching task-start or runtime surfaces.",
+          "outputs": [
+            "external toolbox entry",
+            "documentation reference",
+            "operator guidance"
+          ]
+        }
+      ],
+      "touchpoints": [
+        "external_toolbox",
+        "infrastructure_map"
+      ]
+    },
+    {
+      "pipeline_id": "controlled_fusion",
+      "display_name": "Controlled Fusion",
+      "purpose": "Promote a high-fit external capability into bounded wrappers and task-start support without destabilizing AGN core.",
+      "triggers": [
+        "a toolbox item is repeatedly useful",
+        "a repo deserves a wrapper or skill",
+        "a capability should influence recall, operator brief, or tool reality"
+      ],
+      "default_target_tier": "bounded_wrapper",
+      "guardrails": [
+        "Fuse through contracts, wrappers, cards, and priors before proposing a first-class module.",
+        "Keep runtime facts authoritative over recalled priors.",
+        "Prefer host-aware bounded wrappers over direct uncontrolled binary use."
+      ],
+      "stages": [
+        {
+          "stage_id": "contract_design",
+          "display_name": "Contract Design",
+          "goal": "Define input contract, output artifact, authority boundary, kill switch, rollback path, and host prerequisites.",
+          "outputs": [
+            "wrapper contract",
+            "authority boundary",
+            "rollback plan"
+          ]
+        },
+        {
+          "stage_id": "task_start_visibility",
+          "display_name": "Task-Start Visibility",
+          "goal": "Make the capability visible where AGN decides how to act: reality cards, recall, overlays, or startup briefs.",
+          "outputs": [
+            "tool reality card",
+            "memory prior or lesson",
+            "operator-facing guidance"
+          ]
+        },
+        {
+          "stage_id": "proof_and_docs",
+          "display_name": "Proof And Docs",
+          "goal": "Leave tests, artifacts, and documentation so future agents can reuse the capability safely.",
+          "outputs": [
+            "tests",
+            "artifacts",
+            "runbook entry"
+          ]
+        }
+      ],
+      "touchpoints": [
+        "external_toolbox",
+        "tool_reality_cards",
+        "memory_recall",
+        "task_start_kernel",
+        "operator_brief"
+      ]
+    },
+    {
+      "pipeline_id": "governed_upgrade",
+      "display_name": "Governed Upgrade",
+      "purpose": "Upgrade an existing AGN capability, wrapper, or dependency while preserving contracts, evidence, and rollback.",
+      "triggers": [
+        "upstream version or CLI behavior changed",
+        "wrapper or skill needs to be refreshed",
+        "docs or tests diverge from current reality"
+      ],
+      "default_target_tier": "bounded_wrapper",
+      "guardrails": [
+        "Diff contracts before changing code paths.",
+        "Prefer upgrading the wrapper or reality card before widening permissions.",
+        "Every upgrade must have a rollback path and a fresh smoke result."
+      ],
+      "stages": [
+        {
+          "stage_id": "contract_diff",
+          "display_name": "Contract Diff",
+          "goal": "Compare upstream reality against current AGN assumptions and identify what changed.",
+          "outputs": [
+            "changed assumptions",
+            "migration notes",
+            "risk list"
+          ]
+        },
+        {
+          "stage_id": "upgrade_and_verify",
+          "display_name": "Upgrade And Verify",
+          "goal": "Refresh code, install missing dependencies, and rerun a bounded smoke path with artifacts.",
+          "outputs": [
+            "updated wrapper or surface",
+            "smoke artifact",
+            "doctor or self-check output"
+          ]
+        },
+        {
+          "stage_id": "sync_memory_and_docs",
+          "display_name": "Sync Memory And Docs",
+          "goal": "Update task-start context so old assumptions do not survive the upgrade.",
+          "outputs": [
+            "updated reality card",
+            "updated memory prior",
+            "aligned docs"
+          ]
+        }
+      ],
+      "touchpoints": [
+        "tool_reality_cards",
+        "memory_recall",
+        "host_info",
+        "task_start_kernel"
+      ]
+    },
+    {
+      "pipeline_id": "retirement_and_archive",
+      "display_name": "Retirement And Archive",
+      "purpose": "Remove noise, pause legacy surfaces, and archive redundant material without breaking the active operator path.",
+      "triggers": [
+        "module is stale or misleading",
+        "repo content is unrelated garbage",
+        "old behavior should fail closed instead of staying half-active"
+      ],
+      "default_target_tier": "paused_legacy",
+      "guardrails": [
+        "Do not silently delete evidence that future operators may need.",
+        "Prefer paused compatibility shims over breaking hidden call sites.",
+        "Archive only after confirming the content is redundant or out of scope."
+      ],
+      "stages": [
+        {
+          "stage_id": "usage_and_confusion_check",
+          "display_name": "Usage And Confusion Check",
+          "goal": "Confirm the surface creates more confusion than value and identify any remaining references.",
+          "outputs": [
+            "reference scan",
+            "confusion or noise rationale",
+            "safe retirement target"
+          ]
+        },
+        {
+          "stage_id": "pause_or_archive",
+          "display_name": "Pause Or Archive",
+          "goal": "Move redundant material out of the active path or leave a fail-closed compatibility shell.",
+          "outputs": [
+            "paused shim or archive path",
+            "cleanup diff",
+            "operator note"
+          ]
+        },
+        {
+          "stage_id": "doc_realignment",
+          "display_name": "Doc Realignment",
+          "goal": "Align README, runbook, and system memory so future agents do not keep following a dead path.",
+          "outputs": [
+            "updated docs",
+            "decision log entry",
+            "memory lesson"
+          ]
+        }
+      ],
+      "touchpoints": [
+        "infrastructure_map",
+        "external_toolbox"
+      ]
+    }
+  ],
+  "future_risks": [
+    {
+      "risk_id": "authority_creep",
+      "summary": "External tools or models slowly become de facto governance because nobody bounded them."
+    },
+    {
+      "risk_id": "context_pollution",
+      "summary": "Low-trust search results, repo noise, and stale lessons pollute task-start context and waste tokens."
+    },
+    {
+      "risk_id": "contract_drift",
+      "summary": "Upstream tools change behavior while AGN reality cards and wrappers keep old assumptions."
+    },
+    {
+      "risk_id": "operator_confusion",
+      "summary": "Agents see too many partially active paths and stop knowing which module is the right one."
+    },
+    {
+      "risk_id": "session_sprawl",
+      "summary": "Long-lived runtimes such as browsers or daemons accumulate stale sessions and hidden side effects."
+    }
+  ]
+}

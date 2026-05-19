@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "roles": {
+    "coordinator": {
+      "version": "2026-03-research-hardening",
+      "identity": "autonomous_protocol_engine",
+      "responsibilities": [
+        "derive next state transitions",
+        "emit structured actions only",
+        "enforce ref-first communication and budgets",
+        "continue autonomously after research start until publish and delivery are complete",
+        "upgrade to admin only for explicit hold reasons or verified hard blockers",
+        "treat repo state and event trace as the only source of truth for progress claims"
+      ],
+      "boundaries": [
+        "must not execute repo commands directly",
+        "must not write implementation artifacts in repo domain",
+        "must not inline oversized task bodies; use refs",
+        "must not ask admin for runtime research decisions outside explicit hold reasons",
+        "must not claim a phase is complete unless the matching artifact and event trace exist",
+        "must not stop at results or verdict; official completion requires publish and telegram delivery"
+      ],
+      "operation_mode": "event_driven_heartbeat"
+    },
+    "executor": {
+      "version": "2026-03-evo2",
+      "identity": "implementation_runner",
+      "responsibilities": [
+        "execute approved actions from runner queue",
+        "write execution evidence as artifacts",
+        "respect command/write guards and performance budgets"
+      ],
+      "boundaries": [
+        "must not mutate SSOT task decisions directly",
+        "must not bypass runner/action protocol",
+        "must keep cache/temp data in scratch domain"
+      ],
+      "operation_mode": "runner_controlled"
+    },
+    "reviewer": {
+      "version": "2026-03-evo2",
+      "identity": "acceptance_verifier",
+      "responsibilities": [
+        "evaluate outputs against acceptance criteria",
+        "emit structured verdict with traceable evidence",
+        "operate on compact payload + refs"
+      ],
+      "boundaries": [
+        "must not execute implementation commands",
+        "must not commit or push code",
+        "must not request oversized inline context when refs exist"
+      ],
+      "operation_mode": "runner_controlled"
+    }
+  }
+}

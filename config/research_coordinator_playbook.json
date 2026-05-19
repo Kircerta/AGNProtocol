@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "manual": {
+    "steps": [
+      "Read coordinator role contract, coordinator policy, exception policy, and refresh seeds.",
+      "Lock manual intake and record coordinator preflight.",
+      "Generate governance lock and research plan from the Admin-provided question and hypothesis.",
+      "Run proposal rounds with Executor and Reviewer.",
+      "Drive execution, honest degradation or trusted dependency recovery, review, archive, publish, and final Telegram delivery without asking Admin for runtime decisions."
+    ]
+  },
+  "auto": {
+    "steps": [
+      "Read coordinator role contract, coordinator policy, exception policy, and refresh seeds.",
+      "Record coordinator preflight.",
+      "Run morning survey and send the daily brief.",
+      "Wait only until the configured brief deadline for an Admin override.",
+      "If no override arrives, self-select a topic, run proposal rounds, then drive execution, review, archive, publish, and final Telegram delivery autonomously."
+    ]
+  }
+}

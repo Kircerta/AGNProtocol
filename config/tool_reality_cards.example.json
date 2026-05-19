@@ -1,0 +1,271 @@
+{
+  "schema_version": "agn.tool_reality_cards.catalog.v1",
+  "cards": [
+    {
+      "tool_id": "gui_agent",
+      "display_name": "gui-agent",
+      "category": "desktop_tool",
+      "purpose": "Governed desktop-control adapter for structured observation and gated terminal input on an operator-configured host.",
+      "prerequisites": [
+        "Desktop-control binary present at /example/tools/gui-agent or configured by local override",
+        "Operating-system accessibility and input-control permissions granted on the current host",
+        "Desktop actions require audit refs and the formal execution gate for writes"
+      ],
+      "authority_boundary": "Desktop execution helper only. It must not be treated as a governance bypass or a substitute for approval-gated write actions.",
+      "session_limitations": [
+        "Only affects the current host desktop session",
+        "Focus drift or missing permissions should abort the action instead of guessing"
+      ],
+      "known_failure_modes": [
+        "missing_path:/example/tools/gui-agent",
+        "accessibility_or_input_monitoring_permissions_missing",
+        "desktop_focus_drift_after_observation"
+      ],
+      "current_bindings": [
+        {
+          "category": "tools",
+          "names": [
+            "gui_agent"
+          ]
+        }
+      ],
+      "federated_bindings": [
+        {
+          "category": "tools",
+          "names": [
+            "gui_agent"
+          ]
+        }
+      ],
+      "path_checks": [
+        "/example/tools/gui-agent"
+      ],
+      "host_overrides": [
+        {
+          "host_ids": [
+            "laptop-portable",
+            "laptop-portable-local"
+          ],
+          "note": "Portable example hosts may lack the desktop-control binary; desktop work should fall back to shell or browser control when runtime facts confirm absence."
+        },
+        {
+          "host_ids": [
+            "workstation-primary"
+          ],
+          "note": "Example workstation hosts may carry full desktop-control permissions when configured by the operator."
+        }
+      ],
+      "source_refs": [
+        "scripts/desktop_adapter.py",
+        "scripts/agn_desktop_recovery.py"
+      ]
+    },
+    {
+      "tool_id": "browser-use",
+      "display_name": "browser-use",
+      "category": "browser_tool",
+      "purpose": "Persistent browser runtime for agents that can open pages, keep daemon-backed sessions alive across commands, and optionally attach to explicitly configured browser sessions.",
+      "prerequisites": [
+        "browser-use CLI installed at /example/tools/browser-use or configured by local override",
+        "Reachable target URL",
+        "Wrapper-owned session or explicit browser-use session setup"
+      ],
+      "authority_boundary": "Execution-only browser automation. Profile or CDP attach must be an explicit operator choice, not an assumed default.",
+      "session_limitations": [
+        "Daemon-backed CLI sessions can persist across commands and reduce relaunch overhead",
+        "Login-dependent feeds often require explicit profile or CDP attach and may surface a real browser window"
+      ],
+      "known_failure_modes": [
+        "wrapper_venv_binary_missing",
+        "browser_use_cli_missing",
+        "session_not_wrapper_owned",
+        "site_requires_logged_in_session"
+      ],
+      "path_checks": [
+        "/example/tools/browser-use",
+        "/example/tools/browser-use-wrapper"
+      ],
+      "host_overrides": [
+        {
+          "host_classes": [
+            "portable_workstation"
+          ],
+          "note": "Portable example hosts can run browser-use locally, but personal browser session reuse remains explicit."
+        }
+      ],
+      "source_refs": [
+        "scripts/agn_browser_use_wrapper.py",
+        "external/browser-use/README.md"
+      ]
+    },
+    {
+      "tool_id": "agn_browser_use_wrapper",
+      "display_name": "AGN browser-use wrapper",
+      "category": "controlled_wrapper",
+      "purpose": "Bounded AGN wrapper around browser-use that leaves screenshots, state dumps, kill-switch posture, and rollback evidence while preferring quiet background execution.",
+      "prerequisites": [
+        "scripts/agn_browser_use_wrapper.py present",
+        "browser-use runtime binary available through local configuration",
+        "Wrapper kill switch off and emergency stop inactive"
+      ],
+      "authority_boundary": "Controlled execution helper only. It does not mutate governance or bypass emergency stop.",
+      "session_limitations": [
+        "Only wrapper-owned session IDs are valid",
+        "Produces evidence artifacts but does not become a general browser control authority"
+      ],
+      "known_failure_modes": [
+        "wrapper_disabled",
+        "emergency_stop_active",
+        "browser-use binary missing"
+      ],
+      "current_bindings": [
+        {
+          "category": "wrappers",
+          "names": [
+            "agn_browser_use_wrapper"
+          ]
+        }
+      ],
+      "federated_bindings": [
+        {
+          "category": "wrappers",
+          "names": [
+            "agn_browser_use_wrapper"
+          ]
+        }
+      ],
+      "path_checks": [
+        "/example/tools/browser-use-wrapper"
+      ],
+      "source_refs": [
+        "scripts/agn_browser_use_wrapper.py"
+      ]
+    },
+    {
+      "tool_id": "qwen_local",
+      "display_name": "Qwen local worker",
+      "category": "local_model",
+      "purpose": "Optional local worker lane for repetitive structured execution when a configured local model runtime is present.",
+      "prerequisites": [
+        "Configured local model runtime is reachable",
+        "Configured local model path exists and is readable",
+        "Use remains bounded worker-grade, not final authority or flagship review"
+      ],
+      "authority_boundary": "Worker-grade local model only. It must not be treated as a reviewer, governance judge, or destructive decision authority.",
+      "session_limitations": [
+        "Host-local only; availability changes with storage mounts and runtime state",
+        "Unsuitable for final review or high-trust architectural judgment"
+      ],
+      "known_failure_modes": [
+        "qwen_local_runtime_missing",
+        "qwen_model_path_missing",
+        "qwen_model_path_not_readable"
+      ],
+      "current_bindings": [
+        {
+          "category": "providers",
+          "names": [
+            "qwen_local"
+          ]
+        },
+        {
+          "category": "local_models",
+          "names": [
+            "qwen_local",
+            "qwen_local_model"
+          ]
+        }
+      ],
+      "federated_bindings": [
+        {
+          "category": "local_models",
+          "names": [
+            "qwen_local",
+            "qwen_local_model"
+          ]
+        },
+        {
+          "category": "providers",
+          "names": [
+            "qwen_local"
+          ]
+        }
+      ],
+      "host_overrides": [
+        {
+          "host_ids": [
+            "laptop-portable",
+            "laptop-portable-local"
+          ],
+          "note": "Portable example hosts should assume qwen_local is absent unless runtime facts explicitly show external-storage-backed capacity."
+        },
+        {
+          "host_ids": [
+            "workstation-primary"
+          ],
+          "note": "Example workstation hosts may carry external-storage-backed local model capacity."
+        }
+      ],
+      "source_refs": [
+        "config/providers.json",
+        "scripts/provider_registry.py"
+      ]
+    },
+    {
+      "tool_id": "vertex_local",
+      "display_name": "Vertex local proxy",
+      "category": "provider_proxy",
+      "purpose": "Local Vertex proxy lane for Gemini-compatible execution when the operator-configured proxy endpoint is live.",
+      "prerequisites": [
+        "Configured local proxy base URL",
+        "Proxy process reachable on the current host",
+        "Task does not assume tools unsupported by the local proxy"
+      ],
+      "authority_boundary": "Execution provider helper only. Configuration presence alone does not authorize or guarantee runtime use.",
+      "session_limitations": [
+        "Host-local proxy availability can differ per machine and per session",
+        "Configured state is weaker than live endpoint reachability"
+      ],
+      "known_failure_modes": [
+        "local_provider_endpoint_unreachable:127.0.0.1:8099",
+        "provider_missing_base_url_or_model"
+      ],
+      "current_bindings": [
+        {
+          "category": "providers",
+          "names": [
+            "vertex_local"
+          ]
+        }
+      ],
+      "federated_bindings": [
+        {
+          "category": "providers",
+          "names": [
+            "vertex_local"
+          ]
+        }
+      ],
+      "host_overrides": [
+        {
+          "host_ids": [
+            "laptop-portable",
+            "laptop-portable-local"
+          ],
+          "note": "Portable example hosts should not assume the local proxy is running even if credentials exist."
+        },
+        {
+          "host_ids": [
+            "workstation-primary",
+            "linux-worker"
+          ],
+          "note": "Workstation or Linux worker hosts may expose a reachable local proxy, but live endpoint checks outrank configuration."
+        }
+      ],
+      "source_refs": [
+        "config/providers.json",
+        "scripts/provider_registry.py"
+      ]
+    }
+  ]
+}

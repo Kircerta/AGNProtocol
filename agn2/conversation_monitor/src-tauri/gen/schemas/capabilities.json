@@ -1,0 +1,1 @@
+{"main-capability":{"identifier":"main-capability","description":"Main capability for the AGN2.0 admin control plane","local":true,"windows":["main"],"permissions":["core:default"]}}

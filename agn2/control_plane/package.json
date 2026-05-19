@@ -1,0 +1,9 @@
+{
+  "name": "agn2-control-plane",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "tauri:dev": "cargo tauri dev --config src-tauri/tauri.conf.json",
+    "tauri:build": "cargo tauri build --config src-tauri/tauri.conf.json"
+  }
+}

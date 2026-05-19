@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "research_trigger_modes": [
+    "manual",
+    "auto"
+  ],
+  "allowed_admin_holds": [
+    "manual_intake_missing",
+    "brief_reply_window_open"
+  ],
+  "admin_message_policy": {
+    "manual": [
+      "start",
+      "final"
+    ],
+    "auto": [
+      "brief",
+      "start",
+      "final"
+    ]
+  },
+  "manual_constraints": {
+    "skip_topic_discovery": true,
+    "same_family_only": true,
+    "cross_family_substitution_forbidden": true
+  },
+  "dependency_policy": {
+    "trusted_dependency_installs_allowed": true,
+    "unknown_sources_forbidden": true,
+    "log_every_install_attempt": true,
+    "default_trusted_sources": [
+      "https://download.pytorch.org/whl/cpu",
+      "https://pypi.org/simple"
+    ]
+  },
+  "completion_requirements": [
+    "essay_ref",
+    "final_report_ref",
+    "code_bundle_ref",
+    "result_summary_ref",
+    "publish_receipt_ref",
+    "commit_hash",
+    "push_status_ok",
+    "telegram_receipt_ref"
+  ],
+  "publish_policy": {
+    "preauthorized_on_start": true,
+    "publish_target": "configured_research_repo_work_branch",
+    "delivery_channel": "telegram"
+  },
+  "truthfulness_policy": {
+    "claim_only_what_is_currently_true": true,
+    "natural_language_progress_claims_require_artifact_or_event_evidence": true
+  }
+}

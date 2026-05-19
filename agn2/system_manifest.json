@@ -1,0 +1,80 @@
+{
+  "canonical_entrypoints": {
+    "awakening_daemon": "scripts/awakening_daemon.py",
+    "control_daemon": "scripts/control_daemon.py",
+    "control_plane": "agn2/control_plane",
+    "dispatcher": "scripts/dispatcher_runtime.py",
+    "governance": "agn2/governance",
+    "health_check": "scripts/agn_health_check.py",
+    "mcp_server": "scripts/agn_mcp_server.py",
+    "lifecycle": "scripts/agn2_system.py",
+    "read_model": "scripts/control_plane_read_model.py",
+    "scheduler": "scripts/agn_scheduler.py"
+  },
+  "admin_profile": "agn2/admin_profile.example.json",
+  "local_admin_profile": "agn2/admin_profile.json",
+  "canonical_state": {
+    "awakening_context": [
+      "agn2/awakening"
+    ],
+    "control_plane_read_surface": [
+      "runtime/admin_control/read_models"
+    ],
+    "durable_ledger": [
+      ".agn_workspace/event_driven/ssot",
+      "ssot"
+    ],
+    "ephemeral_transport": [
+      "runtime/bus"
+    ],
+    "governance_control_state": [
+      "runtime/admin_control"
+    ],
+    "health_reports": [
+      "reports/health"
+    ],
+    "scheduler_audit": [
+      "reports/scheduler"
+    ],
+    "semantic_memory": [
+      "runtime/chromadb"
+    ],
+    "tool_registry": [
+      "agn2/awakening/tool_registry.json"
+    ]
+  },
+  "execution_domain": {
+    "code_roots": [
+      "scripts"
+    ],
+    "runtime_roots": [
+      "runtime",
+      ".agn_workspace",
+      "memory/records"
+    ]
+  },
+  "identity_doc": "agn2/SYSTEM_IDENTITY.md",
+  "layers": [
+    {
+      "kind": "human_admin",
+      "name": "Operator"
+    },
+    {
+      "kind": "control_plane",
+      "name": "Admin Control Plane",
+      "root": "agn2/control_plane"
+    },
+    {
+      "kind": "governance",
+      "name": "Constitution / Governance Layer",
+      "root": "agn2/governance"
+    },
+    {
+      "kind": "execution",
+      "name": "Runtime / Sandbox Execution Layer",
+      "root": "scripts"
+    }
+  ],
+  "system_id": "AGN2.0",
+  "version": "phase-a-awakening-2026-03-16"
+}

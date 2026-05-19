@@ -1,0 +1,188 @@
+{
+  "schema_version": "agn.host_state.v1",
+  "host_identity": {
+    "host_id": "workstation-primary",
+    "instance_id": "agn-macstudio-01",
+    "display_name": "ExampleWorkstation",
+    "host_class": "mac_desktop",
+    "environment": "primary_local",
+    "role_hint": "heavy_local_execution"
+  },
+  "static_facts": {
+    "device": {
+      "hostname": "ExampleWorkstation",
+      "os_family": "macos",
+      "os_version": "macOS 15.x",
+      "architecture": "arm64",
+      "device_model": "Example Workstation"
+    },
+    "resources": {
+      "cpu_logical_cores": 24,
+      "memory_total_gb": 64,
+      "storage_roots": [
+        {
+          "name": "system",
+          "path": "/",
+          "kind": "internal",
+          "total_gb": 1024,
+          "removable": false
+        },
+        {
+          "name": "external-models",
+          "path": "/example/model-storage",
+          "kind": "external",
+          "total_gb": 4000,
+          "removable": true
+        }
+      ],
+      "power_profile": {
+        "has_battery": false,
+        "preferred_power_source": "ac_only"
+      }
+    },
+    "path_scope": {
+      "repo_root": "<repo-root>",
+      "codex_home": "/example/codex-agn-home",
+      "obsidian_vault": "~/Documents/Example Vault",
+      "local_model_roots": [
+        "/example/model-storage/qwen"
+      ]
+    },
+    "capability_inventory": {
+      "declared_providers": [
+        "codex",
+        "claude",
+        "gemini",
+        "vertex_local",
+        "qwen_local"
+      ],
+      "declared_local_models": [
+        "qwen_local"
+      ],
+      "declared_tools": [
+        "ghostty",
+        "obsidian",
+        "browser-use"
+      ],
+      "declared_wrappers": [
+        "agn_browser_use_wrapper",
+        "agn_hindsight_wrapper",
+        "agn_promptfoo_wrapper"
+      ]
+    }
+  },
+  "runtime_facts": {
+    "resource_state": {
+      "cpu_load_1m": 3.2,
+      "memory_available_gb": 38.5,
+      "storage_free_gb": [
+        {
+          "name": "system",
+          "free_gb": 312.4,
+          "writable": true
+        },
+        {
+          "name": "tt7",
+          "free_gb": 1620.8,
+          "writable": true
+        }
+      ],
+      "power_state": {
+        "source": "ac",
+        "battery_percent": null,
+        "charging": null,
+        "low_power_mode": null
+      }
+    },
+    "availability": {
+      "providers": [
+        {
+          "name": "codex",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "claude",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "vertex_local",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "gemini_cli",
+          "configured": true,
+          "available": false,
+          "reason": "disabled_for_routing"
+        }
+      ],
+      "local_models": [
+        {
+          "name": "qwen_local",
+          "configured": true,
+          "available": true
+        }
+      ],
+      "tools": [
+        {
+          "name": "ghostty",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "obsidian",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "gui_agent",
+          "configured": true,
+          "available": true
+        }
+      ],
+      "wrappers": [
+        {
+          "name": "agn_browser_use_wrapper",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "agn_hindsight_wrapper",
+          "configured": true,
+          "available": true
+        },
+        {
+          "name": "agn_promptfoo_wrapper",
+          "configured": true,
+          "available": true
+        }
+      ]
+    },
+    "network": {
+      "online": true,
+      "default_route": true,
+      "remote_reachability": [
+        {
+          "target_host_id": "ubuntu-cloud",
+          "transport": "ssh",
+          "reachable": true,
+          "latency_ms": 34
+        },
+        {
+          "target_host_id": "laptop-portable",
+          "transport": "shared_fs",
+          "reachable": true,
+          "latency_ms": null
+        }
+      ]
+    }
+  },
+  "heartbeat": {
+    "observed_at": "2026-03-21T08:30:00Z",
+    "fresh_until": "2026-03-21T08:35:00Z",
+    "stale_after_sec": 300,
+    "collector": "agn_host_state_probe"
+  }
+}

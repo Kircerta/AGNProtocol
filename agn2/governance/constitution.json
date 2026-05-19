@@ -1,0 +1,60 @@
+{
+  "admin": {
+    "authorized_issuers": [
+      "admin"
+    ],
+    "final_arbiter": true,
+    "final_responsibility": true,
+    "sole_ssot": true,
+    "sovereignty_model": "single_human_admin"
+  },
+  "council_review": {
+    "required_on": [
+      "contamination_suspected",
+      "missing_evidence",
+      "high_risk_critical_action",
+      "review_disagreement",
+      "root_cause_non_convergent",
+      "policy_gate_escalation",
+      "constitution_change_request"
+    ],
+    "reviewer_count": 3,
+    "unanimous_approve_required": true
+  },
+  "emergency_stop": {
+    "admin_only": true,
+    "desktop_mode": "observe_only",
+    "dispatcher_accepts_new_work": false,
+    "external_reviewers_paused": true
+  },
+  "high_risk_policy": {
+    "constitution_zone_requires_admin": true,
+    "default_auto_execute": false,
+    "desktop_write_requires_gate": true,
+    "policy_gate_required": true
+  },
+  "immutability": {
+    "agent_may_not_change_authority_hierarchy": true,
+    "agent_may_not_modify": [
+      "agn2/governance/constitution.json",
+      "agn2/governance/policy_gate.json",
+      "runtime/admin_control/system_mode.json"
+    ],
+    "agent_may_not_self_elevate": true
+  },
+  "runtime_hierarchy": {
+    "layers": [
+      "human_admin",
+      "admin_control_plane",
+      "constitution_layer",
+      "runtime_layer"
+    ],
+    "runtime_must_not_override_governance": true
+  },
+  "transparency": {
+    "disallow_fake_chain_of_thought": true,
+    "raw_view_required": true,
+    "summary_view_required": true
+  },
+  "version": "agn2.0-2026-03-13"
+}

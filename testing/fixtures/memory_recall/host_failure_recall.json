@@ -1,0 +1,81 @@
+{
+  "ok": true,
+  "queried_at": "2026-03-21T08:44:21.610052Z",
+  "query": {
+    "task_summary": "Use qwen_local and gui-agent on this Example Laptop to fix Ghostty setup.",
+    "task_type": "desktop_gui",
+    "host_id": "laptop-portable",
+    "tools": [
+      "gui_agent"
+    ],
+    "providers": [
+      "qwen_local"
+    ]
+  },
+  "runtime_context": {
+    "host_id": "laptop-portable",
+    "host_class": "mac_laptop",
+    "environment": "portable_local",
+    "tools": {
+      "available": [
+        "ghostty",
+        "obsidian"
+      ],
+      "unavailable": [
+        "gui_agent"
+      ],
+      "reasons": {
+        "gui_agent": "not_synced_to_this_host"
+      }
+    },
+    "providers": {
+      "available": [
+        "claude",
+        "codex",
+        "vertex_local"
+      ],
+      "unavailable": [
+        "qwen_local"
+      ],
+      "reasons": {
+        "qwen_local": "not_present_on_this_host"
+      }
+    },
+    "local_models": {
+      "available": [],
+      "unavailable": [],
+      "reasons": {}
+    },
+    "runtime_source": "testing/fixtures/federated_host_state/macbook_air.json"
+  },
+  "priors": [
+    {
+      "source_kind": "catalog",
+      "id": "host.macbook_air_portable.boundaries",
+      "kind": "known_failure",
+      "summary": "Portable Example Laptop hosts often lack gui-agent and external-storage-backed qwen_local capacity. Prefer shell, Chrome, Claude Code, or remote-heavy paths unless live runtime facts confirm gui-agent or qwen_local are available.",
+      "matched_on": [
+        "host:laptop-portable",
+        "keyword:ghostty",
+        "keyword:gui-agent",
+        "keyword:qwen",
+        "provider:qwen_local",
+        "task_type:desktop_gui",
+        "tool:gui_agent"
+      ],
+      "runtime_relation": "confirmed_by_runtime",
+      "confidence": "high",
+      "source_refs": [
+        "memory/priors/recall_catalog.json"
+      ],
+      "fact_payload": {
+        "boundary": "host-specific execution prior",
+        "intent": "warn_before_assuming_local_gui_or_local_model_capacity"
+      }
+    }
+  ],
+  "advisory_summary": [
+    "Portable Example Laptop hosts often lack gui-agent and external-storage-backed qwen_local capacity. Prefer shell, Chrome, Claude Code, or remote-heavy paths unless live runtime facts confirm gui-agent or qwen_local are available."
+  ],
+  "runtime_priority_notice": "Runtime facts remain authoritative. Memory priors are advisory and may be confirmed or overridden by live host state."
+}

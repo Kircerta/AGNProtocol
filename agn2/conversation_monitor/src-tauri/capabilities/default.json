@@ -1,0 +1,11 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-capability",
+  "description": "Main capability for the AGN2.0 admin control plane",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default"
+  ]
+}

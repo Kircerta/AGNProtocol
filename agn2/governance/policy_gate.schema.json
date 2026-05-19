@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "rules": {
+      "items": {
+        "properties": {
+          "council_required": {
+            "type": "boolean"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "match": {
+            "type": "object"
+          },
+          "requires_audit_refs": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "match",
+          "decision"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "rules"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGN Conversation Monitor</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="masthead-title">
+          <h1>AGN Conversation Monitor</h1>
+          <p class="eyebrow">Read-Only Language Layer Audit Surface</p>
+        </div>
+        <div class="toolbar">
+          <input id="search-input" class="input search" type="text" placeholder="Search language, trace, task, metadata..." />
+          <input id="participant-input" class="input compact" type="text" placeholder="Agent" />
+          <input id="trace-input" class="input compact" type="text" placeholder="Trace" />
+          <input id="task-input" class="input compact" type="text" placeholder="Task" />
+          <input id="topic-input" class="input compact" type="text" placeholder="Topic" />
+          <select id="subsystem-select" class="input compact">
+            <option value="">All Subsystems</option>
+          </select>
+          <input id="from-input" class="input compact" type="datetime-local" />
+          <input id="to-input" class="input compact" type="datetime-local" />
+          <button id="realtime-button" class="button active">Realtime On</button>
+          <button id="pause-button" class="button">Pause Stream</button>
+          <button id="refresh-button" class="button primary">Refresh</button>
+        </div>
+      </header>
+
+      <section class="status-strip panel">
+        <div id="summary-strip" class="summary-strip"></div>
+      </section>
+
+      <section class="workspace">
+        <section class="panel sidebar">
+          <div class="panel-header">
+            <h2>Conversation List</h2>
+            <div id="conversation-count" class="mini"></div>
+          </div>
+          <div id="conversation-list" class="scroll-area list-area"></div>
+        </section>
+
+        <section class="panel transcript-panel">
+          <div class="panel-header">
+            <h2>Transcript</h2>
+            <div id="transcript-meta" class="mini"></div>
+          </div>
+          <div id="transcript-view" class="scroll-area transcript-view"></div>
+        </section>
+
+        <section class="panel inspector-panel">
+          <div class="panel-header">
+            <h2>Metadata Inspector</h2>
+            <div class="mini">Conversation + Raw Payload</div>
+          </div>
+          <div class="scroll-area inspector-view">
+            <section class="inspector-block">
+              <h3>Conversation</h3>
+              <div id="conversation-inspector"></div>
+            </section>
+            <section class="inspector-block">
+              <h3>Selected Message Envelope</h3>
+              <pre id="message-envelope" class="raw-block"></pre>
+            </section>
+            <section class="inspector-block">
+              <h3>Selected Message Body</h3>
+              <pre id="message-body" class="raw-block"></pre>
+            </section>
+            <section class="inspector-block">
+              <h3>Source Issues</h3>
+              <div id="issues-list" class="issue-list"></div>
+            </section>
+          </div>
+        </section>
+      </section>
+
+      <div id="toast" class="toast hidden"></div>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

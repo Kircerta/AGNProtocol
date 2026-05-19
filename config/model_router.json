@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "default_provider_order": [
+    "qwen_local",
+    "deepseek",
+    "gemini",
+    "claude"
+  ],
+  "default_timeout_sec": 120.0,
+  "default_retry_count": 0,
+  "profile_aliases": {
+    "text_normalization": "structured_transform",
+    "json_extraction": "json_extraction",
+    "label_normalization": "label_normalization",
+    "ocr_cleanup": "ocr_cleanup",
+    "batch_record_cleaning": "batch_cleaning",
+    "bounded_summarization": "bounded_summarization",
+    "general_analysis": "general_analysis",
+    "complex_reasoning": "complex_reasoning",
+    "review": "review"
+  },
+  "profile_bias": {
+    "structured_transform": {
+      "qwen_local": 45,
+      "deepseek": 20,
+      "gemini": 0,
+      "claude": -40
+    },
+    "json_extraction": {
+      "qwen_local": 45,
+      "deepseek": 20,
+      "gemini": 0,
+      "claude": -40
+    },
+    "label_normalization": {
+      "qwen_local": 45,
+      "deepseek": 20,
+      "gemini": 0,
+      "claude": -40
+    },
+    "ocr_cleanup": {
+      "qwen_local": 40,
+      "deepseek": 20,
+      "gemini": 0,
+      "claude": -35
+    },
+    "batch_cleaning": {
+      "qwen_local": 45,
+      "deepseek": 25,
+      "gemini": 5,
+      "claude": -45
+    },
+    "bounded_summarization": {
+      "qwen_local": 25,
+      "deepseek": 20,
+      "gemini": 10,
+      "claude": -30
+    },
+    "general_analysis": {
+      "qwen_local": -35,
+      "deepseek": 20,
+      "gemini": 25,
+      "claude": 10
+    },
+    "complex_reasoning": {
+      "qwen_local": -120,
+      "deepseek": 5,
+      "gemini": 25,
+      "claude": 70
+    },
+    "review": {
+      "qwen_local": -120,
+      "deepseek": 10,
+      "gemini": 20,
+      "claude": 65
+    }
+  },
+  "provider_policies": {
+    "qwen_local": {
+      "max_risk": "low",
+      "max_complexity": "medium",
+      "max_verification_cost": "medium",
+      "allowed_profiles": [
+        "structured_transform",
+        "json_extraction",
+        "label_normalization",
+        "ocr_cleanup",
+        "batch_cleaning",
+        "bounded_summarization"
+      ],
+      "timeout_sec": 90.0,
+      "retry_count": 1,
+      "cost_tier": "free_local"
+    },
+    "deepseek": {
+      "max_risk": "medium",
+      "max_complexity": "high",
+      "max_verification_cost": "high",
+      "allowed_profiles": [
+        "structured_transform",
+        "json_extraction",
+        "label_normalization",
+        "ocr_cleanup",
+        "batch_cleaning",
+        "bounded_summarization",
+        "general_analysis",
+        "review"
+      ],
+      "timeout_sec": 90.0,
+      "retry_count": 1,
+      "cost_tier": "metered_low"
+    },
+    "gemini": {
+      "max_risk": "high",
+      "max_complexity": "high",
+      "max_verification_cost": "high",
+      "allowed_profiles": [
+        "structured_transform",
+        "json_extraction",
+        "label_normalization",
+        "ocr_cleanup",
+        "batch_cleaning",
+        "bounded_summarization",
+        "general_analysis",
+        "complex_reasoning",
+        "review"
+      ],
+      "timeout_sec": 120.0,
+      "retry_count": 0,
+      "cost_tier": "metered_mid",
+      "model_lane_by_profile": {
+        "structured_transform": "flash",
+        "json_extraction": "flash",
+        "label_normalization": "flash",
+        "ocr_cleanup": "flash",
+        "batch_cleaning": "flash",
+        "bounded_summarization": "flash",
+        "general_analysis": "flash",
+        "complex_reasoning": "pro",
+        "review": "pro"
+      },
+      "model_name_by_lane": {
+        "flash": "flash",
+        "pro": "pro"
+      },
+      "cost_tier_by_lane": {
+        "flash": "metered_low",
+        "pro": "metered_mid"
+      }
+    },
+    "claude": {
+      "max_risk": "high",
+      "max_complexity": "very_high",
+      "max_verification_cost": "high",
+      "allowed_profiles": [
+        "general_analysis",
+        "complex_reasoning",
+        "review"
+      ],
+      "timeout_sec": 180.0,
+      "retry_count": 0,
+      "cost_tier": "metered_high"
+    },
+    "vertex_local": {
+      "max_risk": "medium",
+      "max_complexity": "high",
+      "max_verification_cost": "high",
+      "allowed_profiles": [
+        "structured_transform",
+        "json_extraction",
+        "label_normalization",
+        "bounded_summarization",
+        "general_analysis",
+        "review"
+      ],
+      "timeout_sec": 120.0,
+      "retry_count": 1,
+      "cost_tier": "free_local",
+      "model_lane_by_profile": {
+        "structured_transform": "flash",
+        "json_extraction": "flash",
+        "label_normalization": "flash",
+        "bounded_summarization": "flash",
+        "general_analysis": "flash",
+        "review": "flash"
+      },
+      "model_name_by_lane": {
+        "flash": "gemini-2.5-flash"
+      },
+      "cost_tier_by_lane": {
+        "flash": "free_local"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "allowed_exceptions": {
+    "ADMIN_HOLD": [
+      "manual_intake_missing",
+      "brief_reply_window_open"
+    ],
+    "SYSTEM_DEGRADE": [
+      "dependency_unavailable",
+      "dataset_unavailable",
+      "metric_unavailable"
+    ],
+    "SYSTEM_RECOVERY": [
+      "trusted_dependency_install_started",
+      "trusted_dependency_install_succeeded",
+      "trusted_dependency_install_failed"
+    ],
+    "PROTOCOL_BREACH": [
+      "post_hoc_governance",
+      "claim_without_evidence"
+    ],
+    "PUBLISH_RETRY": [
+      "git_push_failed"
+    ],
+    "DELIVERY_RETRY": [
+      "telegram_delivery_unverified"
+    ]
+  },
+  "handling_rules": {
+    "ADMIN_HOLD": "wait_only_in_explicit_hold_phase",
+    "SYSTEM_DEGRADE": "continue_with_same_family_only_or_failure_archive",
+    "SYSTEM_RECOVERY": "attempt_trusted_recovery_without_admin_input_and_log_every_step",
+    "PROTOCOL_BREACH": "rollback_to_last_legal_phase",
+    "PUBLISH_RETRY": "keep_task_active_and_retry_without_admin_input",
+    "DELIVERY_RETRY": "keep_task_active_and_retry_without_admin_input"
+  }
+}

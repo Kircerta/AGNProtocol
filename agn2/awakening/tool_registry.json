@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "description": "AGN Toolmaker registry. Agents can register new tools via agn_tool_register MCP tool.",
+  "tools": {
+    "system_status": {
+      "description": "Get AGN2.0 system lifecycle status as JSON",
+      "command": [".venv/bin/python", "scripts/agn2_system.py", "status"],
+      "author": "system",
+      "timeout_seconds": 30,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "health_check_quick": {
+      "description": "Run a quick system health check (CPU, disk, SSOT, daemons)",
+      "command": [".venv/bin/python", "scripts/agn_health_check.py", "--quick"],
+      "author": "system",
+      "timeout_seconds": 60,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "test_suite": {
+      "description": "Run the AGN test suite (takes ~10 minutes)",
+      "command": [".venv/bin/python", "-m", "pytest", "tests/", "--ignore=tests/test_verify_agn_mvp_contract.py", "-k", "not test_reports_no_absolute_paths", "-q", "--tb=short"],
+      "author": "system",
+      "timeout_seconds": 900,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "git_log": {
+      "description": "Show recent git commits (last 10)",
+      "command": ["git", "log", "--oneline", "-10"],
+      "author": "system",
+      "timeout_seconds": 10,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "ssot_summary": {
+      "description": "Count SSOT tasks by status",
+      "command": [".venv/bin/python", "-c", "import json; from pathlib import Path; d=Path('ssot/tasks'); tasks=[json.loads(f.read_text()) for f in d.glob('*.json')] if d.is_dir() else []; counts={}; [counts.__setitem__(t.get('status','?'), counts.get(t.get('status','?'),0)+1) for t in tasks]; print(json.dumps({'total':len(tasks),'by_status':counts}, indent=2))"],
+      "author": "system",
+      "timeout_seconds": 10,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "memory_index": {
+      "description": "Re-index all memory records into ChromaDB vector store",
+      "command": [".venv/bin/python", "scripts/agn_mcp_server.py", "--index-memory"],
+      "author": "system",
+      "timeout_seconds": 120,
+      "created_at": "2026-03-16T00:00:00+00:00"
+    },
+    "external_toolbox_list": {
+      "description": "List curated external toolbox mounts available to AGN",
+      "command": [".venv/bin/python", "scripts/agn_external_toolbox.py", "list", "--json"],
+      "author": "system",
+      "timeout_seconds": 15,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "external_toolbox_status": {
+      "description": "Check readiness of curated external toolbox mounts",
+      "command": [".venv/bin/python", "scripts/agn_external_toolbox.py", "status", "--json"],
+      "author": "system",
+      "timeout_seconds": 15,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "external_toolbox_show": {
+      "description": "Show one curated external toolbox mount by name. Pass the name as an extra arg.",
+      "command": [".venv/bin/python", "scripts/agn_external_toolbox.py", "show"],
+      "author": "system",
+      "timeout_seconds": 15,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "cognitive_overlays_list": {
+      "description": "List AGN cognitive overlays for coding, evaluation, writing, and memory-aware startup",
+      "command": [".venv/bin/python", "scripts/agn_cognitive_overlays.py", "list", "--json"],
+      "author": "system",
+      "timeout_seconds": 15,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "cognitive_overlays_recommend": {
+      "description": "Recommend AGN cognitive overlays for a task summary. Pass --task-summary as extra args.",
+      "command": [".venv/bin/python", "scripts/agn_cognitive_overlays.py", "recommend"],
+      "author": "system",
+      "timeout_seconds": 15,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "browser_use_wrapper_run": {
+      "description": "Run the controlled browser-use wrapper. Pass --url and optional --artifact-stem as extra args.",
+      "command": ["python3", "scripts/agn_browser_use_wrapper.py", "run"],
+      "author": "system",
+      "timeout_seconds": 180,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "browser_use_wrapper_rollback": {
+      "description": "Rollback a browser-use wrapper session. Pass --session as an extra arg.",
+      "command": ["python3", "scripts/agn_browser_use_wrapper.py", "rollback"],
+      "author": "system",
+      "timeout_seconds": 120,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "hindsight_wrapper_run": {
+      "description": "Run the controlled hindsight wrapper. Defaults to local mock smoke mode; pass provider/model flags for live providers when available.",
+      "command": ["python3", "scripts/agn_hindsight_wrapper.py", "run"],
+      "author": "system",
+      "timeout_seconds": 900,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "hindsight_wrapper_rollback": {
+      "description": "Rollback a hindsight wrapper profile. Pass --profile as an extra arg.",
+      "command": ["python3", "scripts/agn_hindsight_wrapper.py", "rollback"],
+      "author": "system",
+      "timeout_seconds": 180,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "promptfoo_wrapper_run": {
+      "description": "Run the controlled promptfoo wrapper. Pass --config or smoke-test args as extra flags.",
+      "command": ["python3", "scripts/agn_promptfoo_wrapper.py", "run"],
+      "author": "system",
+      "timeout_seconds": 600,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    },
+    "promptfoo_wrapper_rollback": {
+      "description": "Remove promptfoo wrapper-generated config/log artifacts. Pass --artifact-stem as an extra arg.",
+      "command": ["python3", "scripts/agn_promptfoo_wrapper.py", "rollback"],
+      "author": "system",
+      "timeout_seconds": 120,
+      "created_at": "2026-03-21T00:00:00+00:00"
+    }
+  }
+}

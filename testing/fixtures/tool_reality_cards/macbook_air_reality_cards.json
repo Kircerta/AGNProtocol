@@ -1,0 +1,333 @@
+{
+  "cards": [
+    {
+      "authority_boundary": "Desktop execution helper only. It must not be treated as a governance bypass or a substitute for approval-gated write actions.",
+      "current_host_availability": {
+        "available": false,
+        "configured": false,
+        "display_name": "Example Laptop",
+        "explanation": "not_synced_to_this_host",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "not_synced_to_this_host",
+        "source": "runtime_facts.availability.tools.gui_agent",
+        "status": "unavailable"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [
+          "workstation-primary"
+        ],
+        "fresh_unavailable_hosts": [],
+        "stale_available_hosts": []
+      },
+      "host_specific_notes": [
+        "Portable Example Laptop currently lacks the synced gui-agent binary; desktop work must fall back to shell, Chrome, or limited System Events control."
+      ],
+      "known_failure_modes": [
+        "missing_path:/example/tools/gui-agent",
+        "accessibility_or_input_monitoring_permissions_missing",
+        "desktop_focus_drift_after_observation"
+      ],
+      "prerequisites": [
+        "Binary present at /example/tools/gui-agent",
+        "OS accessibility and input-control permissions granted on the current host",
+        "AGN desktop actions still require audit refs and the formal execution gate for writes"
+      ],
+      "purpose": "Governed desktop and Ghostty control adapter for structured observation and gated terminal input on the current host.",
+      "session_limitations": [
+        "Only affects the current host's desktop session",
+        "Focus drift or missing permissions should abort the action instead of guessing"
+      ],
+      "source_refs": [
+        "scripts/desktop_adapter.py",
+        "scripts/agn_desktop_recovery.py"
+      ],
+      "tool_identity": {
+        "category": "desktop_tool",
+        "display_name": "gui-agent",
+        "tool_id": "gui_agent"
+      }
+    },
+    {
+      "authority_boundary": "Execution-only browser automation. It does not mutate governance, control-plane state, or the user's existing personal browser session by itself.",
+      "current_host_availability": {
+        "available": true,
+        "configured": true,
+        "display_name": "Example Laptop",
+        "explanation": "The tool appears present, but the current host state is stale or incomplete, so suitability is not fully fresh.",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "",
+        "source": "path_check:/example/tools/browser-use-wrapper",
+        "status": "limited"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [],
+        "fresh_unavailable_hosts": [
+          "workstation-primary"
+        ],
+        "stale_available_hosts": []
+      },
+      "host_specific_notes": [
+        "Portable hosts can run browser-use locally, but they should not assume that browser-use can hijack the operator's logged-in Chrome."
+      ],
+      "known_failure_modes": [
+        "wrapper_venv_binary_missing",
+        "session_not_wrapper_owned",
+        "site_requires_personal_logged_in_session"
+      ],
+      "prerequisites": [
+        "browser-use binary installed in the wrapper venv",
+        "Reachable target URL",
+        "Wrapper-owned session or explicit browser-use session setup"
+      ],
+      "purpose": "Controlled browser automation runtime for opening pages, collecting state, and producing screenshots inside wrapper-owned sessions.",
+      "session_limitations": [
+        "Runs in a controlled browser-use session, not the user's already logged-in personal Chrome window",
+        "CDP/profile/cloud escalation is outside the bounded AGN wrapper path"
+      ],
+      "source_refs": [
+        "scripts/agn_browser_use_wrapper.py",
+        "external/browser-use/README.md"
+      ],
+      "tool_identity": {
+        "category": "browser_tool",
+        "display_name": "browser-use",
+        "tool_id": "browser-use"
+      }
+    },
+    {
+      "authority_boundary": "Controlled execution helper only. It cannot reuse arbitrary non-wrapper browser sessions, mutate governance, or bypass emergency stop.",
+      "current_host_availability": {
+        "available": true,
+        "configured": true,
+        "display_name": "Example Laptop",
+        "explanation": "The tool appears present, but the current host state is stale or incomplete, so suitability is not fully fresh.",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "",
+        "source": "runtime_facts.availability.wrappers.agn_browser_use_wrapper",
+        "status": "limited"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [
+          "workstation-primary"
+        ],
+        "fresh_unavailable_hosts": [],
+        "stale_available_hosts": []
+      },
+      "host_specific_notes": [],
+      "known_failure_modes": [
+        "wrapper_disabled",
+        "emergency_stop_active",
+        "browser-use binary missing"
+      ],
+      "prerequisites": [
+        "scripts/agn_browser_use_wrapper.py present",
+        "browser-use runtime binary available in the wrapper venv",
+        "Wrapper kill switch off and emergency stop inactive"
+      ],
+      "purpose": "Bounded AGN wrapper around browser-use that leaves screenshots, state dumps, kill-switch posture, and rollback evidence.",
+      "session_limitations": [
+        "Only wrapper-owned session IDs are valid",
+        "Produces evidence artifacts but does not become a general browser control authority"
+      ],
+      "source_refs": [
+        "scripts/agn_browser_use_wrapper.py"
+      ],
+      "tool_identity": {
+        "category": "controlled_wrapper",
+        "display_name": "AGN browser-use wrapper",
+        "tool_id": "agn_browser_use_wrapper"
+      }
+    },
+    {
+      "authority_boundary": "Worker-grade local model only. It must not be treated as a reviewer, governance judge, or destructive decision authority.",
+      "current_host_availability": {
+        "available": false,
+        "configured": false,
+        "display_name": "Example Laptop",
+        "explanation": "not_present_on_this_host",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "not_present_on_this_host",
+        "source": "runtime_facts.availability.providers.qwen_local",
+        "status": "unavailable"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [
+          "workstation-primary"
+        ],
+        "fresh_unavailable_hosts": [],
+        "stale_available_hosts": []
+      },
+      "host_specific_notes": [
+        "Portable Example Laptop should assume qwen_local is absent unless runtime facts explicitly show external-storage-backed capacity."
+      ],
+      "known_failure_modes": [
+        "qwen_local_runtime_missing",
+        "qwen_model_path_missing",
+        "qwen_model_path_not_readable"
+      ],
+      "prerequisites": [
+        "Configured local model runtime is reachable",
+        "Configured local model path exists and is readable",
+        "Use remains bounded worker-grade, not final authority or flagship review"
+      ],
+      "purpose": "Low-cost bounded local worker lane for repetitive structured execution when a configured local model runtime is present.",
+      "session_limitations": [
+        "Host-local only; availability changes with storage mounts and local runtime state",
+        "Unsuitable for final review or high-trust architectural judgment"
+      ],
+      "source_refs": [
+        "config/providers.json",
+        "scripts/provider_registry.py"
+      ],
+      "tool_identity": {
+        "category": "local_model",
+        "display_name": "Qwen local worker",
+        "tool_id": "qwen_local"
+      }
+    },
+    {
+      "authority_boundary": "Execution provider helper only. Configuration presence alone does not authorize or guarantee runtime use.",
+      "current_host_availability": {
+        "available": true,
+        "configured": true,
+        "display_name": "Example Laptop",
+        "explanation": "The tool appears present, but the current host state is stale or incomplete, so suitability is not fully fresh.",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "",
+        "source": "runtime_facts.availability.providers.vertex_local",
+        "status": "limited"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [
+          "workstation-primary"
+        ],
+        "fresh_unavailable_hosts": [],
+        "stale_available_hosts": [
+          "ubuntu-cloud"
+        ]
+      },
+      "host_specific_notes": [
+        "Portable Example Laptop should not assume the local Vertex proxy is running even if Vertex credentials exist."
+      ],
+      "known_failure_modes": [
+        "local_provider_endpoint_unreachable:127.0.0.1:8099",
+        "provider_missing_base_url_or_model"
+      ],
+      "prerequisites": [
+        "Configured local proxy base URL",
+        "Proxy process reachable on the current host",
+        "Task does not assume tools unsupported by the local proxy"
+      ],
+      "purpose": "Local Vertex proxy lane for Gemini-compatible execution when the host-specific proxy endpoint is actually live.",
+      "session_limitations": [
+        "Host-local proxy availability can differ per machine and per session",
+        "Configured state is weaker than live endpoint reachability"
+      ],
+      "source_refs": [
+        "config/providers.json",
+        "scripts/provider_registry.py"
+      ],
+      "tool_identity": {
+        "category": "provider_proxy",
+        "display_name": "Vertex local proxy",
+        "tool_id": "vertex_local"
+      }
+    },
+    {
+      "authority_boundary": "Knowledge-base helper only. It must not silently create fallback vaults or guess alternate storage roots.",
+      "current_host_availability": {
+        "available": true,
+        "configured": true,
+        "display_name": "Example Laptop",
+        "explanation": "The tool appears present, but the current host state is stale or incomplete, so suitability is not fully fresh.",
+        "freshness_status": "stale",
+        "host_class": "mac_laptop",
+        "host_id": "laptop-portable",
+        "reason": "",
+        "source": "runtime_facts.availability.tools.obsidian",
+        "status": "limited"
+      },
+      "federated_hints": {
+        "degraded_hosts": [
+          "laptop-portable"
+        ],
+        "fresh_available_hosts": [
+          "workstation-primary"
+        ],
+        "fresh_unavailable_hosts": [],
+        "stale_available_hosts": []
+      },
+      "host_specific_notes": [],
+      "known_failure_modes": [
+        "obsidian_cli_missing",
+        "vault_missing_or_unreadable",
+        "vault_path_guessing_forbidden"
+      ],
+      "prerequisites": [
+        "obsidian command available on PATH",
+        "Configured vault path exists and is readable",
+        "If the vault is missing, report the missing path."
+      ],
+      "purpose": "Local vault-aware note and workspace CLI for reading and editing the configured Obsidian vault on this host.",
+      "session_limitations": [
+        "Operates on the current host's configured vault",
+        "Missing vault path is an ask-the-admin condition, not an initialization shortcut"
+      ],
+      "source_refs": [
+        "RUNBOOK.md"
+      ],
+      "tool_identity": {
+        "category": "knowledge_tool",
+        "display_name": "Obsidian CLI",
+        "tool_id": "obsidian_cli"
+      }
+    }
+  ],
+  "current_host": {
+    "display_name": "Example Laptop",
+    "host_class": "mac_laptop",
+    "host_id": "laptop-portable",
+    "host_state_path": "testing/fixtures/federated_host_state/macbook_air.json"
+  },
+  "generated_at": "2026-03-21T08:53:29.471612Z",
+  "schema_version": "agn.tool_reality_cards.v1",
+  "summary": {
+    "count": 6,
+    "limited_now": [
+      "agn_browser_use_wrapper",
+      "browser-use",
+      "obsidian_cli",
+      "vertex_local"
+    ],
+    "suitable_now": [],
+    "unavailable_now": [
+      "gui_agent",
+      "qwen_local"
+    ]
+  }
+}

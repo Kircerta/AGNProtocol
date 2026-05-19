@@ -1,0 +1,19 @@
+{
+  "version": "evo5",
+  "hot_days": 7,
+  "warm_days": 30,
+  "cold_days": 180,
+  "keep_key_artifacts": [
+    "patch",
+    "verdict",
+    "final_report",
+    "acceptance_spec"
+  ],
+  "index": {
+    "path": ".agn_workspace/event_driven/ssot/index/delivered_runs.json",
+    "max_items": 5000
+  },
+  "integrity_sweep": {
+    "report_path": "reports/integrity_sweep_report.json"
+  }
+}

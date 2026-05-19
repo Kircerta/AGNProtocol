@@ -1,0 +1,320 @@
+{
+  "schema_version": "agn.infrastructure_registry.v1",
+  "districts": [
+    {
+      "district_id": "governance",
+      "display_name": "Governance Core",
+      "purpose": "Lifecycle, mode visibility, and formal human control."
+    },
+    {
+      "district_id": "task_start",
+      "display_name": "Task-Start Kernel",
+      "purpose": "Current-host facts, priors, and startup decision support."
+    },
+    {
+      "district_id": "execution",
+      "display_name": "Execution Grid",
+      "purpose": "Dispatch, bounded labor, and flagship review."
+    },
+    {
+      "district_id": "observation",
+      "display_name": "Observation Layer",
+      "purpose": "Desktop, browser, and visual state access."
+    },
+    {
+      "district_id": "memory",
+      "display_name": "Knowledge Library",
+      "purpose": "Recall, tool reality, and durable memory surfaces."
+    },
+    {
+      "district_id": "evolution",
+      "display_name": "Evolution Foundry",
+      "purpose": "How AGN ingests, fuses, upgrades, and retires capabilities without destabilizing the core."
+    },
+    {
+      "district_id": "compatibility",
+      "display_name": "Compatibility District",
+      "purpose": "Paused legacy surfaces preserved only so old paths fail closed."
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "agn2_system",
+      "display_name": "AGN2 System",
+      "district": "governance",
+      "status": "active",
+      "purpose": "Canonical lifecycle, validation, and system mode surface.",
+      "entry": "python3 scripts/agn2_system.py status",
+      "surface_ref": "lifecycle",
+      "script_path": "scripts/agn2_system.py",
+      "depends_on": [],
+      "tags": ["lifecycle", "governance", "status"]
+    },
+    {
+      "module_id": "control_plane",
+      "display_name": "Control Plane",
+      "district": "governance",
+      "status": "active",
+      "purpose": "Formal human control surface for governed visibility and commands.",
+      "entry": "open '/Applications/AGN2.0 Control Plane.app'",
+      "surface_ref": "control_plane",
+      "depends_on": ["agn2_system"],
+      "tags": ["control", "governance", "approval"]
+    },
+    {
+      "module_id": "task_start_kernel",
+      "display_name": "Task-Start Kernel",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Unified aggregation of current-host facts, advisory priors, and relevant tool cards.",
+      "entry": "python3 scripts/agn_task_start_kernel.py build --task-summary \"...\"",
+      "surface_ref": "task_start_kernel",
+      "script_path": "scripts/agn_task_start_kernel.py",
+      "depends_on": ["host_info", "memory_recall", "tool_reality_cards"],
+      "tags": ["startup", "routing", "host", "memory"]
+    },
+    {
+      "module_id": "preflight",
+      "display_name": "Preflight",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Rich task-start payload with surfaces, checks, kernel, and next actions.",
+      "entry": "python3 scripts/agn2_execution_workflow.py preflight --task-summary \"...\"",
+      "script_path": "scripts/agn2_execution_workflow.py",
+      "depends_on": ["task_start_kernel", "agn2_system"],
+      "tags": ["startup", "checks", "execution"]
+    },
+    {
+      "module_id": "host_info",
+      "display_name": "Host Info",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Single active machine surface for hardware, dependencies, and local paths.",
+      "entry": "python3 scripts/agn_host_info.py show --task-summary \"...\"",
+      "surface_ref": "host_info",
+      "script_path": "scripts/agn_host_info.py",
+      "depends_on": [],
+      "tags": ["host", "hardware", "dependencies"]
+    },
+    {
+      "module_id": "infrastructure_map",
+      "display_name": "Infrastructure Map",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Agent-facing city map of AGN districts, modules, and paused compatibility surfaces.",
+      "entry": "python3 scripts/agn_infrastructure_map.py show",
+      "surface_ref": "infrastructure_map",
+      "script_path": "scripts/agn_infrastructure_map.py",
+      "depends_on": [],
+      "tags": ["map", "modules", "discovery"]
+    },
+    {
+      "module_id": "operator_brief",
+      "display_name": "Operator Brief",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Low-noise task-start summary separating blockers, attention, and information.",
+      "entry": "python3 scripts/agn_operator_brief.py build --task-summary \"...\"",
+      "surface_ref": "operator_brief",
+      "script_path": "scripts/agn_operator_brief.py",
+      "depends_on": ["task_start_kernel", "preflight"],
+      "tags": ["startup", "brief", "operator"]
+    },
+    {
+      "module_id": "capability_rhythm",
+      "display_name": "Capability Rhythm",
+      "district": "task_start",
+      "status": "active",
+      "purpose": "Short task-start plan for surfaces, providers, skills, and overlays.",
+      "entry": "python3 scripts/agn_capability_rhythm.py --task-summary \"...\"",
+      "script_path": "scripts/agn_capability_rhythm.py",
+      "depends_on": ["task_start_kernel", "preflight"],
+      "tags": ["startup", "skills", "providers"]
+    },
+    {
+      "module_id": "dispatcher",
+      "display_name": "Dispatcher",
+      "district": "execution",
+      "status": "active",
+      "purpose": "Single dispatch entry for providers, reviewers, memory, vision, and desktop actions.",
+      "entry": "python3 scripts/dispatcher_runtime.py dispatch --from-json-file <request.json>",
+      "surface_ref": "dispatcher",
+      "script_path": "scripts/dispatcher_runtime.py",
+      "depends_on": ["agn2_system"],
+      "tags": ["dispatch", "execution", "runtime"]
+    },
+    {
+      "module_id": "governed_execution_gateway",
+      "display_name": "Governed Execution Gateway",
+      "district": "execution",
+      "status": "active",
+      "purpose": "Typed execution facade that routes provider, reviewer, memory, vision, and desktop requests through the dispatcher instead of direct handler calls.",
+      "entry": "python3 scripts/agn_governed_execution.py",
+      "surface_ref": "governed_execution_gateway",
+      "script_path": "scripts/agn_governed_execution.py",
+      "depends_on": ["dispatcher"],
+      "tags": ["dispatch", "gateway", "governance", "execution"]
+    },
+    {
+      "module_id": "worker_delegate",
+      "display_name": "Worker Delegate",
+      "district": "execution",
+      "status": "active",
+      "purpose": "Bounded labor handoff to worker-grade lanes.",
+      "entry": "python3 scripts/agn2_execution_workflow.py delegate --instruction \"...\"",
+      "surface_ref": "worker_delegate",
+      "script_path": "scripts/agn2_execution_workflow.py",
+      "depends_on": ["preflight"],
+      "tags": ["worker", "delegate", "bounded"]
+    },
+    {
+      "module_id": "flagship_review",
+      "display_name": "Flagship Review",
+      "district": "execution",
+      "status": "active",
+      "purpose": "High-trust review path for ambiguity, architecture, and risk.",
+      "entry": "python3 scripts/agn2_execution_workflow.py review --file <path>",
+      "surface_ref": "flagship_review",
+      "script_path": "scripts/agn2_execution_workflow.py",
+      "depends_on": ["preflight"],
+      "tags": ["review", "architecture", "risk"]
+    },
+    {
+      "module_id": "desktop_control",
+      "display_name": "Desktop Control",
+      "district": "observation",
+      "status": "active",
+      "purpose": "Governed GUI and Ghostty observation/action surface.",
+      "entry": "python3 scripts/desktop_adapter.py",
+      "surface_ref": "desktop_control",
+      "script_path": "scripts/desktop_adapter.py",
+      "depends_on": ["host_info"],
+      "tags": ["desktop", "gui", "ghostty", "vision"]
+    },
+    {
+      "module_id": "browser_use_wrapper",
+      "display_name": "Browser Use Wrapper",
+      "district": "observation",
+      "status": "active",
+      "purpose": "Bounded browser automation with artifacts and session hygiene.",
+      "entry": "python3 scripts/agn_browser_use_wrapper.py run --url <http-or-https-url>",
+      "script_path": "scripts/agn_browser_use_wrapper.py",
+      "depends_on": ["host_info", "tool_reality_cards"],
+      "tags": ["browser", "web", "social", "research"]
+    },
+    {
+      "module_id": "memory_recall",
+      "display_name": "Memory Recall",
+      "district": "memory",
+      "status": "active",
+      "purpose": "Advisory prior recall by task, host, tool, and provider.",
+      "entry": "python3 scripts/agn_memory_recall.py query --task-summary \"...\"",
+      "script_path": "scripts/agn_memory_recall.py",
+      "depends_on": [],
+      "tags": ["memory", "priors", "recall"]
+    },
+    {
+      "module_id": "tool_reality_cards",
+      "display_name": "Tool Reality Cards",
+      "district": "memory",
+      "status": "active",
+      "purpose": "Explain what high-value tools can and cannot do on the current host.",
+      "entry": "python3 scripts/agn_tool_reality_cards.py build",
+      "surface_ref": "tool_reality_cards",
+      "script_path": "scripts/agn_tool_reality_cards.py",
+      "depends_on": ["host_info"],
+      "tags": ["tools", "reality", "host"]
+    },
+    {
+      "module_id": "external_toolbox",
+      "display_name": "External Toolbox",
+      "district": "memory",
+      "status": "active",
+      "purpose": "Catalog of mounted external capability clusters and references.",
+      "entry": "python3 scripts/agn_external_toolbox.py list",
+      "surface_ref": "external_toolbox",
+      "script_path": "scripts/agn_external_toolbox.py",
+      "depends_on": [],
+      "tags": ["toolbox", "external", "reference"]
+    },
+    {
+      "module_id": "evolution_pipeline",
+      "display_name": "Evolution Pipeline",
+      "district": "evolution",
+      "status": "active",
+      "purpose": "Capability intake, fusion, upgrade, and retirement architecture for AGN's self-evolution path.",
+      "entry": "python3 scripts/agn_evolution_pipeline.py show",
+      "surface_ref": "evolution_pipeline",
+      "script_path": "scripts/agn_evolution_pipeline.py",
+      "depends_on": ["external_toolbox", "infrastructure_map", "task_start_kernel"],
+      "tags": ["evolution", "intake", "upgrade", "cleanup"]
+    },
+    {
+      "module_id": "reconstruction_status",
+      "display_name": "Reconstruction Status",
+      "district": "evolution",
+      "status": "active",
+      "purpose": "Canonical progress tracker for AGN restructuring phases, milestones, and architectural handoff state.",
+      "entry": "python3 scripts/agn_reconstruction_status.py show",
+      "surface_ref": "reconstruction_status",
+      "script_path": "scripts/agn_reconstruction_status.py",
+      "depends_on": ["evolution_pipeline", "infrastructure_map"],
+      "tags": ["reconstruction", "progress", "handoff", "changelog"]
+    },
+    {
+      "module_id": "agn_federated_read_model",
+      "display_name": "Federated Read Model",
+      "district": "compatibility",
+      "status": "compat_paused",
+      "purpose": "Paused legacy multi-host aggregation shim.",
+      "entry": "python3 scripts/agn_federated_read_model.py",
+      "script_path": "scripts/agn_federated_read_model.py",
+      "depends_on": [],
+      "tags": ["legacy", "paused", "multi-host"]
+    },
+    {
+      "module_id": "agn_host_state_heartbeat",
+      "display_name": "Host State Heartbeat",
+      "district": "compatibility",
+      "status": "compat_paused",
+      "purpose": "Paused legacy heartbeat shim for retired multi-host freshness.",
+      "entry": "python3 scripts/agn_host_state_heartbeat.py status",
+      "script_path": "scripts/agn_host_state_heartbeat.py",
+      "depends_on": [],
+      "tags": ["legacy", "paused", "multi-host"]
+    },
+    {
+      "module_id": "agn_host_posture_brief",
+      "display_name": "Host Posture Brief",
+      "district": "compatibility",
+      "status": "compat_paused",
+      "purpose": "Paused legacy multi-host posture shim.",
+      "entry": "python3 scripts/agn_host_posture_brief.py --task-summary \"...\"",
+      "script_path": "scripts/agn_host_posture_brief.py",
+      "depends_on": [],
+      "tags": ["legacy", "paused", "multi-host"]
+    },
+    {
+      "module_id": "agn_runtime_router",
+      "display_name": "Runtime Router",
+      "district": "compatibility",
+      "status": "compat_paused",
+      "purpose": "Paused legacy host-choice routing shim.",
+      "entry": "python3 scripts/agn_runtime_router.py",
+      "script_path": "scripts/agn_runtime_router.py",
+      "depends_on": [],
+      "tags": ["legacy", "paused", "multi-host"]
+    },
+    {
+      "module_id": "federated_runtime_acceptance",
+      "display_name": "Federated Runtime Acceptance",
+      "district": "compatibility",
+      "status": "compat_paused",
+      "purpose": "Paused legacy federated runtime validation shim.",
+      "entry": "python3 scripts/validation/run_federated_runtime_acceptance.py",
+      "script_path": "scripts/validation/run_federated_runtime_acceptance.py",
+      "depends_on": [],
+      "tags": ["legacy", "paused", "validation"]
+    }
+  ]
+}

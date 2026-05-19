@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AGN 1.0 Operator Console</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #5f6c7b;
+      --line: #d5dbe2;
+      --accent: #0a6c7d;
+      --accent-soft: #d9eef2;
+      --warn: #9a6700;
+      --bad: #9c2b1c;
+      --good: #196127;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top right, #e8f3f5, #f4f6f8 45%);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+    }
+    .title {
+      font-family: "Space Grotesk", "Avenir Next", sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.01em;
+    }
+    .overview {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #fff;
+    }
+    .status {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .status.ok { color: var(--good); }
+    .status.warn { color: var(--warn); }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 320px) minmax(440px, 1fr) minmax(360px, 460px);
+      gap: 12px;
+      padding: 12px;
+      min-height: calc(100vh - 72px);
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(120deg, #f8fbfd, #ffffff);
+    }
+    .panel-body {
+      padding: 10px 12px;
+      overflow: auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tasks-toolbar {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+    }
+    input, select, textarea, button {
+      font: inherit;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+    button {
+      cursor: pointer;
+      background: #f8fbfd;
+      border-color: #c6d2dd;
+    }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .task-item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      display: grid;
+      gap: 5px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .task-item.active {
+      background: var(--accent-soft);
+      border-color: #87b8c0;
+    }
+    .task-id {
+      font-size: 11px;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      border: 1px solid var(--line);
+      background: #fff;
+      width: fit-content;
+    }
+    .grid-2 {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 6px;
+      font-size: 12px;
+      align-items: start;
+    }
+    .kv .k { color: var(--muted); }
+    .code {
+      font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #0d1117;
+      color: #e6edf3;
+      border-radius: 8px;
+      border: 1px solid #202938;
+      padding: 10px;
+      max-height: 280px;
+      overflow: auto;
+    }
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+    .row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      display: grid;
+      gap: 6px;
+      background: #fff;
+    }
+    .row-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .muted { color: var(--muted); }
+    .controls-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .controls-grid button { width: 100%; }
+    .danger { color: var(--bad); }
+    .ref {
+      color: #0f5f7a;
+      text-decoration: underline;
+      cursor: pointer;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+    .small { font-size: 11px; }
+    @media (max-width: 1300px) {
+      .shell { grid-template-columns: 1fr; }
+      .panel { min-height: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="title">AGN 1.0 Operator Console</div>
+      <div class="overview" id="overview"></div>
+    </div>
+    <label class="small">JWT
+      <input id="jwt-input" placeholder="for control and approvals" style="min-width:260px" />
+    </label>
+    <div id="connection-status" class="status warn">SSE: connecting...</div>
+  </header>
+
+  <main class="shell">
+    <section class="panel">
+      <h2>Tasks</h2>
+      <div class="panel-body">
+        <div class="tasks-toolbar">
+          <input id="task-search" placeholder="Search task id/source/summary" />
+          <select id="task-state-filter">
+            <option value="">All states</option>
+            <option value="CREATED">CREATED</option>
+            <option value="PLANNED">PLANNED</option>
+            <option value="DISPATCHED_EXEC">DISPATCHED_EXEC</option>
+            <option value="EXEC_RUNNING">EXEC_RUNNING</option>
+            <option value="EXEC_DONE">EXEC_DONE</option>
+            <option value="DISPATCHED_REVIEW">DISPATCHED_REVIEW</option>
+            <option value="REVIEW_RUNNING">REVIEW_RUNNING</option>
+            <option value="REVIEW_DONE">REVIEW_DONE</option>
+            <option value="SYNTHESIS">SYNTHESIS</option>
+            <option value="DELIVERY_GATE">DELIVERY_GATE</option>
+            <option value="NEED_ADMIN">NEED_ADMIN</option>
+            <option value="DELIVERED">DELIVERED</option>
+            <option value="ABORTED">ABORTED</option>
+          </select>
+          <button id="tasks-refresh">Refresh</button>
+        </div>
+        <div id="task-list" class="list"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Task Detail</h2>
+      <div class="panel-body">
+        <div id="task-header" class="grid-2"></div>
+
+        <section>
+          <strong class="small">Checkpoint</strong>
+          <pre id="checkpoint-json" class="code">{}</pre>
+        </section>
+
+        <section>
+          <strong class="small">Timeline</strong>
+          <div id="timeline-list" class="list"></div>
+        </section>
+
+        <section>
+          <strong class="small">Pending Actions</strong>
+          <div id="pending-actions" class="list"></div>
+        </section>
+
+        <section>
+          <strong class="small">Controls</strong>
+          <div class="controls-grid">
+            <button data-control="PAUSE">Pause</button>
+            <button data-control="RESUME">Resume</button>
+            <button data-control="DEGRADE">Force Degrade</button>
+            <button data-control="REORGANIZE">Force Reorg</button>
+            <button data-control="MARK_ANOMALY">Mark Anomaly</button>
+            <button data-control="STATUS">Status</button>
+          </div>
+          <div style="display:grid; gap:8px; margin-top:8px;">
+            <input id="fallback-topic-id" placeholder="fallback topic id" />
+            <button id="submit-fallback">Set Fallback Topic</button>
+          </div>
+          <details>
+            <summary class="small">MODIFY payload</summary>
+            <div style="display:grid; gap:8px; margin-top:8px;">
+              <input id="modify-summary" placeholder="request_summary" />
+              <textarea id="modify-text" rows="4" placeholder="request_text (optional)"></textarea>
+              <input id="modify-text-ref" placeholder="request_text_ref (agn://...)" />
+              <input id="modify-context-path" placeholder="context_read_path (default README.md)" />
+              <label class="small"><input type="checkbox" id="modify-needs-context"> needs_context_read</label>
+              <button id="submit-modify" class="primary">Submit MODIFY</button>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Trace + Evidence</h2>
+      <div class="panel-body">
+        <section>
+          <strong class="small">Trace Panel</strong>
+          <div id="trace-panel" class="list"></div>
+        </section>
+        <section>
+          <strong class="small">Raw Messages</strong>
+          <div id="message-list" class="list"></div>
+        </section>
+        <section>
+          <strong class="small">Trace Events</strong>
+          <div id="trace-events" class="list"></div>
+        </section>
+        <section>
+          <strong class="small">Ref Reader</strong>
+          <div class="grid-2">
+            <input id="ref-input" placeholder="agn://artifact/... or agn://object/..." />
+            <button id="read-ref-btn">Read Ref</button>
+          </div>
+          <pre id="ref-result" class="code">No ref selected.</pre>
+        </section>
+        <section>
+          <strong class="small">Command Requests</strong>
+          <div id="command-requests" class="list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/static/js/agn_console/main.js"></script>
+</body>
+</html>

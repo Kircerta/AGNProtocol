@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-05-19",
+  "identity": {
+    "name": "Example Operator",
+    "role": "Human operator",
+    "languages": [
+      "en"
+    ],
+    "technical_vocabulary_language": "en",
+    "timezone": "Etc/UTC"
+  },
+  "communication": {
+    "style": "concise",
+    "prefers_verbose_explanation": false,
+    "prefers_trailing_summary": false
+  },
+  "decision_style": {
+    "requires_explicit_approval_for_destructive_actions": true,
+    "reviews_outputs_before_external_publication": true
+  },
+  "technical_preferences": {
+    "fail_closed_defaults": true,
+    "atomic_state_updates": true,
+    "audit_trail_required": true
+  },
+  "safety_boundaries": {
+    "destructive_operations_require_confirmation": true,
+    "external_communications_require_confirmation": true
+  }
+}

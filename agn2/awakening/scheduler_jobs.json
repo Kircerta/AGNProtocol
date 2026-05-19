@@ -1,0 +1,96 @@
+{
+  "version": "1.0.0",
+  "description": "Autonomous background tasks for AGN. All jobs must be non-destructive and respect emergency_stop.",
+  "jobs": [
+    {
+      "name": "health_check_quick",
+      "description": "Quick system health check \u2014 CPU, disk, SSOT, daemons (no tests)",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_health_check.py",
+        "--quick"
+      ],
+      "interval_seconds": 900,
+      "timeout_seconds": 60,
+      "enabled": true,
+      "destructive": false
+    },
+    {
+      "name": "health_check_full",
+      "description": "Full health check including test suite",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_health_check.py"
+      ],
+      "interval_seconds": 21600,
+      "timeout_seconds": 600,
+      "enabled": true,
+      "destructive": false
+    },
+    {
+      "name": "awakening_refresh",
+      "description": "Refresh awakening context (backup \u2014 daemon should handle this)",
+      "command": [
+        ".venv/bin/python",
+        "scripts/awakening_daemon.py"
+      ],
+      "interval_seconds": 300,
+      "timeout_seconds": 30,
+      "enabled": false,
+      "destructive": false,
+      "note": "Only enable if awakening daemon launchd is not running"
+    },
+    {
+      "name": "memory_index",
+      "description": "Re-index memory records and audit trail into ChromaDB for semantic search",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_mcp_server.py",
+        "--index-memory"
+      ],
+      "interval_seconds": 3600,
+      "timeout_seconds": 120,
+      "enabled": true,
+      "destructive": false
+    },
+    {
+      "name": "maintenance_locks",
+      "description": "Remove stale lock files older than 1 hour",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_maintenance.py",
+        "prune-locks"
+      ],
+      "interval_seconds": 3600,
+      "timeout_seconds": 30,
+      "enabled": true,
+      "destructive": false
+    },
+    {
+      "name": "maintenance_logs",
+      "description": "Compress JSONL audit/scheduler logs older than 7 days",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_maintenance.py",
+        "prune-logs"
+      ],
+      "interval_seconds": 86400,
+      "timeout_seconds": 60,
+      "enabled": true,
+      "destructive": false
+    },
+    {
+      "name": "maintenance_quarantine",
+      "description": "Remove quarantined memory records older than 30 days",
+      "command": [
+        ".venv/bin/python",
+        "scripts/agn_maintenance.py",
+        "prune-quarantine"
+      ],
+      "interval_seconds": 86400,
+      "timeout_seconds": 30,
+      "enabled": true,
+      "destructive": false
+    }
+  ]
+}
